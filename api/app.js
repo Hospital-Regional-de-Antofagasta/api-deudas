@@ -19,6 +19,10 @@ app.get("/v1/deudas/health", (req, res) => {
   res.status(200).send("ready");
 });
 
+app.get("/v1/deudas/test", (req, res) => {
+  res.status(200).send("test");
+});
+
 if (require.main === module) { // true if file is executed
   process.on("SIGINT",function (){
     process.exit();
