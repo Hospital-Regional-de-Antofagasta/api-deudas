@@ -30,4 +30,4 @@
             JWT_SECRET: "TEST"
           run: |
             chmod +x ./gradlew
-            ./gradlew helmInstallApideudasToCloud
+            ./gradlew helmInstallApiDeudasToCloud
