@@ -1,0 +1,37 @@
+{
+  "name": "api-deudas",
+  "version": "1.0.0",
+  "description": "Api para el back-end de deudas de la aplicación móvil Hospital en tus manos.",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Hospital-Regional-de-Antofagasta/api-deudas.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Hospital-Regional-de-Antofagasta/api-deudas/issues"
+  },
+  "homepage": "https://github.com/Hospital-Regional-de-Antofagasta/api-deudas#readme",
+  "devDependencies": {
+    "cross-env": "^7.0.3",
+    "dotenv": "^16.0.0",
+    "esbuild": "^0.14.18",
+    "jest": "^27.4.7",
+    "nodemon": "^2.0.15",
+    "supertest": "^6.2.2"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.17.2",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^6.2.0"
+  }
+}

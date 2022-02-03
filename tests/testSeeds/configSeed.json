@@ -1,0 +1,25 @@
+[
+  {
+    "mensajes": {
+      "forbiddenAccess": {
+        "titulo": "Alerta -test",
+        "mensaje": "Su sesión ha expirado. -test",
+        "color": " -test",
+        "icono": " -test"
+      },
+      "serverError": {
+        "titulo": "Alerta -test",
+        "mensaje": "Ocurrió un error inesperado. -test",
+        "color": " -test",
+        "icono": " -test"
+      },
+      "badRequest": {
+        "titulo": "Alerta -test",
+        "mensaje": "La solicitud no está bien formada. -test",
+        "color": " -test",
+        "icono": " -test"
+      }
+    },
+    "version": 1
+  }
+]
