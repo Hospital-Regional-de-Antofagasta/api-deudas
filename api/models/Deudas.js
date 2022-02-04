@@ -17,7 +17,8 @@ const Deudas = mongoose.model(
       required: true,
       enum: ["Hospital Regional Antofagasta Dr. Leonardo Guzmán"],
     },
-  })
+  },
+  { timestamps: true })
 );
 
 module.exports = Deudas;
