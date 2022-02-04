@@ -62,6 +62,23 @@ describe("Endpoints Deuda", () => {
         },
       });
     });
+    it("should not get deuda with invalid token", async () => {
+      const respuesta = await request
+        .get("/v1/deudas/paciente")
+        .set("Authorization", "no-token");
+
+      const mensaje = await getMensajes("forbiddenAccess");
+
+      expect(respuesta.status).toBe(401);
+      expect(respuesta.body).toEqual({
+        respuesta: {
+          titulo: mensaje.titulo,
+          mensaje: mensaje.mensaje,
+          color: mensaje.color,
+          icono: mensaje.icono,
+        },
+      });
+    });
     it("should get no deuda if paciente has none", async () => {
       const respuesta = await request
         .get("/v1/deudas/paciente")
@@ -78,20 +95,30 @@ describe("Endpoints Deuda", () => {
       expect(respuesta.status).toBe(200);
 
       const deudas = respuesta.body;
-      const orderedDeudas = deudasSeed.filter((e) => e.rutPaciente === "11111111-1").sort((a, b) => a.fecha - b.fecha)
+      const orderedDeudas = deudasSeed
+        .filter((e) => e.rutPaciente === "11111111-1")
+        .sort((a, b) => a.fecha - b.fecha);
 
       expect(deudas.length).toBe(orderedDeudas.length);
 
       for (let i = 0; i < orderedDeudas.length; i++) {
-        expect(deudas[i].correlativo).toBe(orderedDeudas[i].correlativo)
-        expect(deudas[i].rutPaciente).toBeFalsy()
-        expect(Date.parse(deudas[i].fecha)).toBe(Date.parse(orderedDeudas[i].fecha))
-        expect(deudas[i].identificadorPrograma).toBe(orderedDeudas[i].identificadorPrograma)
-        expect(deudas[i].valor).toBe(orderedDeudas[i].valor)
-        expect(deudas[i].deuda).toBe(orderedDeudas[i].deuda)
-        expect(deudas[i].tipoPrograma).toBe(orderedDeudas[i].tipoPrograma)
-        expect(deudas[i].codigoEstablecimiento).toBe(orderedDeudas[i].codigoEstablecimiento)
-        expect(deudas[i].nombreEstablecimiento).toBe(orderedDeudas[i].nombreEstablecimiento)
+        expect(deudas[i].correlativo).toBe(orderedDeudas[i].correlativo);
+        expect(deudas[i].rutPaciente).toBeFalsy();
+        expect(Date.parse(deudas[i].fecha)).toBe(
+          Date.parse(orderedDeudas[i].fecha)
+        );
+        expect(deudas[i].identificadorPrograma).toBe(
+          orderedDeudas[i].identificadorPrograma
+        );
+        expect(deudas[i].valor).toBe(orderedDeudas[i].valor);
+        expect(deudas[i].deuda).toBe(orderedDeudas[i].deuda);
+        expect(deudas[i].tipoPrograma).toBe(orderedDeudas[i].tipoPrograma);
+        expect(deudas[i].codigoEstablecimiento).toBe(
+          orderedDeudas[i].codigoEstablecimiento
+        );
+        expect(deudas[i].nombreEstablecimiento).toBe(
+          orderedDeudas[i].nombreEstablecimiento
+        );
       }
     });
   });
