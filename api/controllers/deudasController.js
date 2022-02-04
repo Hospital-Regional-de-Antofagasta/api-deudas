@@ -6,7 +6,7 @@ exports.getDeudasPaciente = async (req, res) => {
     const deudas = await Deudas.find({ rutPaciente: req.rutPaciente }).exec();
     res.status(200).send(deudas)
   } catch (error) {
-    await manejarError(req, res, error);
+    await manejarError(error, req, res)
   }
 }
 
