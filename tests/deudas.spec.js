@@ -98,7 +98,7 @@ describe("Endpoints Deuda", () => {
         .filter((e) => e.rutPaciente === "11111111-1")
         .sort((a, b) => a.fecha - b.fecha);
 
-      expect(deudas.length).toBe(orderedDeudas.length);
+      expect(deudas.length).toBe(9);
 
       for (let i = 0; i < orderedDeudas.length; i++) {
         expect(deudas[i].correlativo).toBe(orderedDeudas[i].correlativo);
