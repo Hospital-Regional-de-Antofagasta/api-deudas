@@ -3,7 +3,8 @@ kind: Service
 metadata:
   name: { { (include "api-deudas.fullname" .) | printf "%s-service" } }
   namespace: { { .Release.Namespace } }
-  labels: { { - include "api-deudas.labels" . | nindent 4 } }
+  labels:
+    { { - include "api-deudas.labels" . | nindent 4 } }
 spec:
   type: { { .Values.service.type } }
   ports:
@@ -11,4 +12,5 @@ spec:
       targetPort: { { .Values.service.targetPort } }
       protocol: TCP
       name: http
-  selector: { { - include "api-deudas.selectorLabels" . | nindent 4 } }
+  selector: 
+    { { - include "api-deudas.selectorLabels" . | nindent 4 } }
