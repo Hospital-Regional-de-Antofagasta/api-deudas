@@ -325,7 +325,7 @@ task gcloudGetContextCredentials(type:Exec){
 }
 
 helmInstallApiDeudaToLocal.dependsOn dockerPush, createNamespace
-helmInstallApiDeudasToCloud.dependsOn dockerPush, gcloudGetContextCredentials, createNamespace
+helmInstallApiDeudaToCloud.dependsOn dockerPush, gcloudGetContextCredentials, createNamespace
 
 
 clean {
