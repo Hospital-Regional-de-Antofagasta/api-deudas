@@ -176,7 +176,7 @@ helm {
     }
 
     releases {
-        "api-deudas" {
+        "api-deuda" {
             from charts.api
 
             forTarget('local') {
