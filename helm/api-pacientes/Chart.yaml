@@ -1,5 +1,5 @@
 apiVersion: v2
-name: api-deuda
+name: api-deudas
 description: A Helm chart for Kubernetes
 
 # A chart can be either an 'application' or a 'library' chart.
