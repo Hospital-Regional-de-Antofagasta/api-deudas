@@ -96,7 +96,7 @@ describe("Endpoints Deuda", () => {
       const deudas = respuesta.body;
       const orderedDeudas = deudasSeed
         .filter((e) => e.rutPaciente === "11111111-1")
-        .sort((a, b) => a.fecha - b.fecha);
+        .sort((a, b) => new Date(a.fecha) - new Date(b.fecha));
 
       expect(deudas.length).toBe(9);
 
