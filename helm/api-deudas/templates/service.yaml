@@ -2,7 +2,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: {{ (include "api-deudas.fullname" .) | printf "%s-service" }}
-  namespace: { { .Release.Namespace } }
+  namespace: {{ .Release.Namespace }}
   labels:
     {{- include "api-deudas.labels" . | nindent 4 }}
 spec:
