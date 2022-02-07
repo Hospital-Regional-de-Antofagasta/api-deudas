@@ -7,7 +7,6 @@ const ConfigApiDeudas = require("../api/models/ConfigApiDeudas");
 const configSeed = require("./testSeeds/configSeed.json");
 const Deudas = require("../api/models/Deudas");
 const deudasSeed = require("./testSeeds/deudasSeed.json");
-const e = require("express");
 
 const request = supertest(app);
 
@@ -87,7 +86,7 @@ describe("Endpoints Deuda", () => {
       expect(respuesta.status).toBe(200);
       expect(respuesta.body).toEqual([]);
     });
-    it("should get deuda from paciente", async () => {
+    it.only("should get deuda from paciente", async () => {
       const respuesta = await request
         .get("/v1/deudas/paciente")
         .set("Authorization", token);
