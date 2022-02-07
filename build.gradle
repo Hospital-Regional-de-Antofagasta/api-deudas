@@ -176,7 +176,7 @@ helm {
     }
 
     releases {
-        "api-deuda" {
+        "api-deudas" {
             from charts.api
 
             forTarget('local') {
@@ -324,8 +324,8 @@ task gcloudGetContextCredentials(type:Exec){
     args "--project", "$projectId"
 }
 
-helmInstallApiDeudaToLocal.dependsOn dockerPush, createNamespace
-helmInstallApiDeudaToCloud.dependsOn dockerPush, gcloudGetContextCredentials, createNamespace
+helmInstallApiDeudasToLocal.dependsOn dockerPush, createNamespace
+helmInstallApiDeudasToCloud.dependsOn dockerPush, gcloudGetContextCredentials, createNamespace
 
 
 clean {
