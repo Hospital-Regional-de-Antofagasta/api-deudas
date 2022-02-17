@@ -17,6 +17,11 @@ fullnameOverride: ""
 secrets:
   apiKey: ""
   mongoUrl: "mongodb://mongo/hrapp"
+  baseUrl: ""
+  apiUrl: ""
+  flowApiKey: ""
+  flowSecretKey: ""
+  flowHosting: ""
 
 enviroment: prod
 

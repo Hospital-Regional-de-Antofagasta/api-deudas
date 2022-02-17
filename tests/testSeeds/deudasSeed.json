@@ -1,5 +1,6 @@
 [
   {
+    "_id": "000000000001",
     "correlativo": 1,
     "rutPaciente": "11111111-1",
     "fecha": "2017-06-06",
@@ -11,6 +12,7 @@
     "nombreEstablecimiento": "Hospital Regional Antofagasta Dr. Leonardo Guzmán"
   },
   {
+    "_id": "000000000002",
     "correlativo": 2,
     "rutPaciente": "11111111-1",
     "fecha": "2017-04-20",

@@ -86,7 +86,7 @@ describe("Endpoints Deuda", () => {
       expect(respuesta.status).toBe(200);
       expect(respuesta.body).toEqual([]);
     });
-    it.only("should get deuda from paciente", async () => {
+    it("should get deuda from paciente", async () => {
       const respuesta = await request
         .get("/v1/deudas/paciente")
         .set("Authorization", token);

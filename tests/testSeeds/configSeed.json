@@ -18,7 +18,56 @@
         "mensaje": "La solicitud no está bien formada. -test",
         "color": " -test",
         "icono": " -test"
+      },
+      "deudaNoEncontrada": {
+        "titulo": "Deuda no encontrada -test",
+        "mensaje": "No se pudo encontrar la deuda. -test",
+        "color": " -test",
+        "icono": " -test"
+      },
+      "pagoPendiente": {
+        "titulo": "Pago pendiente -test",
+        "mensaje": "Existe un pago pendiente para esa deuda. -test",
+        "color": " -test",
+        "icono": " -test"
+      },
+      "pacienteNoEncontrado": {
+        "titulo": "Paciente no encontrado -test",
+        "mensaje": "No se pudo encontrar al paciente. -test",
+        "color": " -test",
+        "icono": " -test"
+      },
+      "datosContactoNoConfirmados": {
+        "titulo": "Datos de contacto no confirmados -test",
+        "mensaje": "Se debe confirmar los datos de contacto antes de realizar un pago. -test",
+        "color": " -test",
+        "icono": " -test"
+      },
+      "emailNoEncontrado": {
+        "titulo": "Correo no encontrado -test",
+        "mensaje": "No se pudo encontrar el correo electrónico. -test",
+        "color": " -test",
+        "icono": " -test"
+      },
+      "emailNoValido": {
+        "titulo": "Correo no valido -test",
+        "mensaje": "El correo electrónico no es válido. -test",
+        "color": " -test",
+        "icono": " -test"
+      },
+      "flowError": {
+        "titulo": "Problema de conexion al medio de pago -test",
+        "mensaje": "El medio de pago seleccionado no se encuentra disponible temporalmente. -test",
+        "color": " -test",
+        "icono": " -test"
       }
+    },
+    "parametrosFlow": {
+      "subject": "Deuda hospitalaria test",
+      "currency": "CLP test",
+      "paymentMethod": 2,
+      "timeout": 121,
+      "payment_currency": "CLP test"
     },
     "version": 1
   }

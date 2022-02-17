@@ -21,6 +21,11 @@ var apiKey = System.getenv("API_KEY") ?: "0123456789ABCDEF"
 var mongoIp = System.getenv("MONGO_IP") ?: "localhost"
 var keyJson = System.getenv("KEY") ?: "{}"
 var nodeEnv = System.getenv("NODE_ENV") ?: "prod"
+var baseUrl = System.getenv("BASE_URL") ?: "localhost"
+var apiUrl = System.getenv("API_URL") ?: "localhost"
+var flowApiKey = System.getenv("FLOW_API_KEY") ?: "0123456789ABCDEF"
+var flowSecretKey = System.getenv("FLOW_SECRET_KEY") ?: "0123456789ABCDEF"
+var flowHosting = System.getenv("FLOW_HOSTING") ?: "localhost"
 var commitId
 
 gitVersion{
@@ -188,6 +193,11 @@ helm {
                 values.put('enviroment', nodeEnv)
                 values.put('secrets.apiKey', apiKey)
                 values.put('secrets.mongoUrl', "mongodb://$mongoIp:27017/hrapp_deudas")
+                values.put('secrets.baseUrl', baseUrl)
+                values.put('secrets.apiUrl', apiUrl)
+                values.put('secrets.flowApiKey', flowApiKey)
+                values.put('secrets.flowSecretKey', flowSecretKey)
+                values.put('secrets.flowHosting', flowHosting)
             }
 
             forAnyTarget{

@@ -35,9 +35,12 @@
     "supertest": "^6.2.2"
   },
   "dependencies": {
+    "axios": "^0.25.0",
     "cors": "^2.8.5",
+    "crypto-js": "^4.1.1",
     "express": "^4.17.2",
     "jsonwebtoken": "^8.5.1",
-    "mongoose": "^6.2.0"
+    "mongoose": "^6.2.0",
+    "uuid": "^8.3.2"
   }
 }

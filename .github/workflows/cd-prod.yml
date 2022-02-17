@@ -15,6 +15,11 @@
         API_KEY: ${{ secrets.API_KEY }}
         MONGO_IP: ${{ secrets.MONGO_IP_PROD }}
         NODE_ENV: "prod"
+        BASE_URL: ${{ secrets.BASE_URL_PROD }}
+        API_URL: ${{ secrets.BASE_URL_PROD }}
+        FLOW_API_KEY: ${{ secrets.FOLW_API_KEY_PROD }}
+        FLOW_SECRET_KEY: ${{ secrets.FLOW_SECRET_KEY_PROD }}
+        FLOW_HOSTING: ${{ secrets.FLOW_HOSTING_PROD }}
       steps:
         - name: Checkout
           uses: actions/checkout@v2
