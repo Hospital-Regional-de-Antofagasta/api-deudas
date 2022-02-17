@@ -9,21 +9,21 @@ const {
   validarDeudaNoTengaPagoPendiente,
 } = require("../middleware/validarPagos");
 const { validarPaciente } = require("../middleware/validarPaciente");
-// const { validarToken } = require("../middleware/validarFlow");
+const { validarToken } = require("../middleware/validarFlow");
 
 const router = express.Router();
 
 router.post(
   "/flow-confirmation",
   express.urlencoded({ extended: true }),
-  // validarToken,
+  validarToken,
   flowController.confirmation
 );
 
 router.post(
   "/flow-return",
   express.urlencoded({ extended: true }),
-  // validarToken,
+  validarToken,
   flowController.return
 );
 

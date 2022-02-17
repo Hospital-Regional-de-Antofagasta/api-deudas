@@ -254,4 +254,38 @@ describe("Endpoints Pagos", () => {
       });
     });
   });
+  describe("POST /v1/pagos/flow-confirmation", () => {
+    it("Should not access confirmation without token", async () => {
+      const respuesta = await request.post("/v1/pagos/flow-confirmation");
+
+      const mensaje = await getMensajes("forbiddenAccess");
+
+      expect(respuesta.status).toBe(401);
+      expect(respuesta.body).toEqual({
+        respuesta: {
+          titulo: mensaje.titulo,
+          mensaje: mensaje.mensaje,
+          color: mensaje.color,
+          icono: mensaje.icono,
+        },
+      });
+    });
+    it("Should not access confirmation with invalid token", async () => {
+      const respuesta = await request
+        .post("/v1/pagos/flow-confirmation")
+        .send({ token: "token" });
+
+      const mensaje = await getMensajes("forbiddenAccess");
+
+      expect(respuesta.status).toBe(401);
+      expect(respuesta.body).toEqual({
+        respuesta: {
+          titulo: mensaje.titulo,
+          mensaje: mensaje.mensaje,
+          color: mensaje.color,
+          icono: mensaje.icono,
+        },
+      });
+    });
+  });
 });
