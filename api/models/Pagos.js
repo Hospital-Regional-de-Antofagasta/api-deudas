@@ -7,7 +7,19 @@ const Pagos = mongoose.model(
     {
       token: { type: String, required: true },
       flowOrder: { type: String, required: true },
-      estado: { type: String, default: "EN_PROCESO" }, // EN_PROCESO, PAGADO, ANULADO, RECHAZADO, ERROR_FLOW, VALIDADO, ERROR_VALIDACION
+      estado: {
+        type: String,
+        default: "EN_PROCESO",
+        enum: [
+          "EN_PROCESO",
+          "PAGADO",
+          "ANULADO",
+          "RECHAZADO",
+          "ERROR_FLOW",
+          "VALIDADO",
+          "ERROR_VALIDACION",
+        ],
+      },
       deudas: {
         type: [
           {
@@ -21,6 +33,7 @@ const Pagos = mongoose.model(
         ],
         required: true,
       },
+      commerceOrder: { type: String, required: true },
     },
     { timestamps: true }
   )

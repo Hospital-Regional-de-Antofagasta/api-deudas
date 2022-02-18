@@ -1,6 +1,6 @@
 const { getMensajes } = require("../config");
 
-const handleValidationError = async (error, req, res) => {
+const sendValidationError = async (res, error) => {
   let errors = {};
   for (let prop in error.errors) {
     errors[prop] = error.errors[prop].message;
@@ -11,7 +11,7 @@ const handleValidationError = async (error, req, res) => {
   });
 };
 
-const handleDevError = async (error, req, res) => {
+const sendDevServerError = async (res, error) => {
   return res.status(500).send({
     respuesta: await getMensajes("serverError"),
     detalles_error: {
@@ -21,15 +21,30 @@ const handleDevError = async (error, req, res) => {
   });
 };
 
-const handleServerError = async (error, req, res) => {
+const sendServerError = async (res) => {
   res.status(500).send({ respuesta: await getMensajes("serverError") });
 };
 
-exports.handleError = async (error, req, res) => {
-  console.log({name: error.name, message: error.message})
+exports.handleError = async (res, error) => {
   if (error.name === "ValidationError")
-    return await handleValidationError(error, req, res);
+    return await sendValidationError(res, error);
   if (process.env.NODE_ENV === "dev" || process.env.NODE_ENV === "test")
-    return await handleDevError(error, req, res);
-  await handleServerError(error, req, res);
+    return await sendDevServerError(res, error);
+  await sendServerError(res);
+};
+
+exports.sendCustomError = async (
+  res,
+  statusCode,
+  message,
+  errorDetails
+) => {
+  if (process.env.NODE_ENV === "dev" || process.env.NODE_ENV === "test")
+    return res.status(statusCode).send({
+      respuesta: await getMensajes(message),
+      detalles_error: errorDetails,
+    });
+  return res.status(statusCode).send({
+    respuesta: await getMensajes(message),
+  });
 };

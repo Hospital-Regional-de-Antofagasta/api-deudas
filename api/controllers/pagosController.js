@@ -2,22 +2,23 @@ const { v4: uuidv4 } = require("uuid");
 const Pagos = require("../models/Pagos");
 const Deudas = require("../models/Deudas");
 const flowController = require("../controllers/flowController");
-const { getParametrosFlow, getMensajes } = require("../config");
-const { handleError } = require("../utils/errorHandler");
+const { getParametrosFlow } = require("../config");
+const { handleError, sendCustomError } = require("../utils/errorHandler");
 
 const baseUrl = process.env.BASE_URL;
 
 exports.crear = async (req, res) => {
-  console.log("pagos", "crear");
   try {
     const pagos = req.body;
 
     const { subject, currency, paymentMethod, timeout, payment_currency } =
       await getParametrosFlow();
 
+    const commerceOrder = uuidv4();
+
     const params = {
       amount: calcularMonto(pagos),
-      commerceOrder: uuidv4(),
+      commerceOrder,
       email: req.emailPaciente,
       subject,
       currency,
@@ -32,39 +33,29 @@ exports.crear = async (req, res) => {
     const flowPayment = await flowController.createFlowPayment(params);
 
     if (!flowPayment)
-      return res
-        .status(200)
-        .send({
-          respuesta: await getMensajes("flowError"),
-          detalles_error: flowPayment,
-        });
+      return await sendCustomError(res, 500, "flowUnavailable", flowPayment);
 
     const { token, url, flowOrder } = flowPayment;
 
     if (!token || !url || !flowOrder)
-      return res
-        .status(200)
-        .send({
-          respuesta: await getMensajes("flowError"),
-          detalles_error: flowPayment,
-        });
+      return await sendCustomError(res, 500, "flowUnavailable", flowPayment);
 
     await Pagos.create({
       token,
       flowOrder,
       deudas: pagos,
+      commerceOrder,
     });
 
     const urlPagar = `${url}?token=${token}`;
 
     res.status(200).send({ urlPagoFlow: urlPagar });
   } catch (error) {
-    await handleError(error, req, res);
+    await handleError(res, error);
   }
 };
 
 const calcularMonto = (pagos) => {
-  console.log("pagos", "calcularMonto");
   let monto = 0;
   for (let pago of pagos) {
     monto += pago.abono;
@@ -73,7 +64,6 @@ const calcularMonto = (pagos) => {
 };
 
 const detallesPago = async (pagos) => {
-  console.log("pagos", "detallesPago");
   const detallesPago = [];
   for (let pago of pagos) {
     const deuda = await Deudas.findOne({ _id: pago.idDeuda }).exec();

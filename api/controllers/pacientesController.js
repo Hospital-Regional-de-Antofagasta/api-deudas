@@ -3,7 +3,6 @@ const { httpRequest } = require("../utils/httpRequests");
 const urlPacientes = process.env.API_URL;
 
 exports.getPaciente = async (token) => {
-  console.log("pacientes", "getPaciente");
   const config = {
     headers: {
       Authorization: `${token}`,

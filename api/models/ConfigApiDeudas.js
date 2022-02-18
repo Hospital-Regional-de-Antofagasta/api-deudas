@@ -59,7 +59,37 @@ const ConfigApiDeudas = mongoose.model(
         color: String,
         icono: String,
       },
+      flowUnavailable: {
+        titulo: String,
+        mensaje: String,
+        color: String,
+        icono: String,
+      },
+      pagoRealizado: {
+        titulo: String,
+        mensaje: String,
+        color: String,
+        icono: String,
+      },
+      pagoAnulado: {
+        titulo: String,
+        mensaje: String,
+        color: String,
+        icono: String,
+      },
+      pagoRechazado: {
+        titulo: String,
+        mensaje: String,
+        color: String,
+        icono: String,
+      },
       flowError: {
+        titulo: String,
+        mensaje: String,
+        color: String,
+        icono: String,
+      },
+      errorPaciente: {
         titulo: String,
         mensaje: String,
         color: String,

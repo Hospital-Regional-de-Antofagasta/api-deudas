@@ -48,13 +48,11 @@ describe("Endpoints Pagos", () => {
       const mensaje = await getMensajes("forbiddenAccess");
 
       expect(respuesta.status).toBe(401);
-      expect(respuesta.body).toEqual({
-        respuesta: {
-          titulo: mensaje.titulo,
-          mensaje: mensaje.mensaje,
-          color: mensaje.color,
-          icono: mensaje.icono,
-        },
+      expect(respuesta.body.respuesta).toEqual({
+        titulo: mensaje.titulo,
+        mensaje: mensaje.mensaje,
+        color: mensaje.color,
+        icono: mensaje.icono,
       });
     });
     it("Should not generate payment with invalid token", async () => {
@@ -65,13 +63,11 @@ describe("Endpoints Pagos", () => {
       const mensaje = await getMensajes("forbiddenAccess");
 
       expect(respuesta.status).toBe(401);
-      expect(respuesta.body).toEqual({
-        respuesta: {
-          titulo: mensaje.titulo,
-          mensaje: mensaje.mensaje,
-          color: mensaje.color,
-          icono: mensaje.icono,
-        },
+      expect(respuesta.body.respuesta).toEqual({
+        titulo: mensaje.titulo,
+        mensaje: mensaje.mensaje,
+        color: mensaje.color,
+        icono: mensaje.icono,
       });
     });
     it("Should not generate payment with empty body", async () => {
@@ -82,13 +78,11 @@ describe("Endpoints Pagos", () => {
       const mensaje = await getMensajes("badRequest");
 
       expect(respuesta.status).toBe(400);
-      expect(respuesta.body).toEqual({
-        respuesta: {
-          titulo: mensaje.titulo,
-          mensaje: mensaje.mensaje,
-          color: mensaje.color,
-          icono: mensaje.icono,
-        },
+      expect(respuesta.body.respuesta).toEqual({
+        titulo: mensaje.titulo,
+        mensaje: mensaje.mensaje,
+        color: mensaje.color,
+        icono: mensaje.icono,
       });
     });
     it("Should not generate payment with empty array", async () => {
@@ -100,13 +94,11 @@ describe("Endpoints Pagos", () => {
       const mensaje = await getMensajes("badRequest");
 
       expect(respuesta.status).toBe(400);
-      expect(respuesta.body).toEqual({
-        respuesta: {
-          titulo: mensaje.titulo,
-          mensaje: mensaje.mensaje,
-          color: mensaje.color,
-          icono: mensaje.icono,
-        },
+      expect(respuesta.body.respuesta).toEqual({
+        titulo: mensaje.titulo,
+        mensaje: mensaje.mensaje,
+        color: mensaje.color,
+        icono: mensaje.icono,
       });
     });
     it("Should not generate payment with empty object", async () => {
@@ -118,13 +110,11 @@ describe("Endpoints Pagos", () => {
       const mensaje = await getMensajes("badRequest");
 
       expect(respuesta.status).toBe(400);
-      expect(respuesta.body).toEqual({
-        respuesta: {
-          titulo: mensaje.titulo,
-          mensaje: mensaje.mensaje,
-          color: mensaje.color,
-          icono: mensaje.icono,
-        },
+      expect(respuesta.body.respuesta).toEqual({
+        titulo: mensaje.titulo,
+        mensaje: mensaje.mensaje,
+        color: mensaje.color,
+        icono: mensaje.icono,
       });
     });
     it("Should not generate payment with empty payment", async () => {
@@ -136,13 +126,11 @@ describe("Endpoints Pagos", () => {
       const mensaje = await getMensajes("badRequest");
 
       expect(respuesta.status).toBe(400);
-      expect(respuesta.body).toEqual({
-        respuesta: {
-          titulo: mensaje.titulo,
-          mensaje: mensaje.mensaje,
-          color: mensaje.color,
-          icono: mensaje.icono,
-        },
+      expect(respuesta.body.respuesta).toEqual({
+        titulo: mensaje.titulo,
+        mensaje: mensaje.mensaje,
+        color: mensaje.color,
+        icono: mensaje.icono,
       });
     });
     it("Should not generate payment with payment without idDeuda", async () => {
@@ -154,13 +142,11 @@ describe("Endpoints Pagos", () => {
       const mensaje = await getMensajes("badRequest");
 
       expect(respuesta.status).toBe(400);
-      expect(respuesta.body).toEqual({
-        respuesta: {
-          titulo: mensaje.titulo,
-          mensaje: mensaje.mensaje,
-          color: mensaje.color,
-          icono: mensaje.icono,
-        },
+      expect(respuesta.body.respuesta).toEqual({
+        titulo: mensaje.titulo,
+        mensaje: mensaje.mensaje,
+        color: mensaje.color,
+        icono: mensaje.icono,
       });
     });
     it("Should not generate payment with payment without abono", async () => {
@@ -172,13 +158,11 @@ describe("Endpoints Pagos", () => {
       const mensaje = await getMensajes("badRequest");
 
       expect(respuesta.status).toBe(400);
-      expect(respuesta.body).toEqual({
-        respuesta: {
-          titulo: mensaje.titulo,
-          mensaje: mensaje.mensaje,
-          color: mensaje.color,
-          icono: mensaje.icono,
-        },
+      expect(respuesta.body.respuesta).toEqual({
+        titulo: mensaje.titulo,
+        mensaje: mensaje.mensaje,
+        color: mensaje.color,
+        icono: mensaje.icono,
       });
     });
     it("Should not generate payment with payment without deuda", async () => {
@@ -190,13 +174,11 @@ describe("Endpoints Pagos", () => {
       const mensaje = await getMensajes("deudaNoEncontrada");
 
       expect(respuesta.status).toBe(400);
-      expect(respuesta.body).toEqual({
-        respuesta: {
-          titulo: mensaje.titulo,
-          mensaje: mensaje.mensaje,
-          color: mensaje.color,
-          icono: mensaje.icono,
-        },
+      expect(respuesta.body.respuesta).toEqual({
+        titulo: mensaje.titulo,
+        mensaje: mensaje.mensaje,
+        color: mensaje.color,
+        icono: mensaje.icono,
       });
     });
     it("Should not generate payment with payment with deuda with pending payment", async () => {
@@ -208,13 +190,11 @@ describe("Endpoints Pagos", () => {
       const mensaje = await getMensajes("pagoPendiente");
 
       expect(respuesta.status).toBe(400);
-      expect(respuesta.body).toEqual({
-        respuesta: {
-          titulo: mensaje.titulo,
-          mensaje: mensaje.mensaje,
-          color: mensaje.color,
-          icono: mensaje.icono,
-        },
+      expect(respuesta.body.respuesta).toEqual({
+        titulo: mensaje.titulo,
+        mensaje: mensaje.mensaje,
+        color: mensaje.color,
+        icono: mensaje.icono,
       });
     });
     it("Should not generate payment with payment with deuda with abono > deuda", async () => {
@@ -226,13 +206,11 @@ describe("Endpoints Pagos", () => {
       const mensaje = await getMensajes("badRequest");
 
       expect(respuesta.status).toBe(400);
-      expect(respuesta.body).toEqual({
-        respuesta: {
-          titulo: mensaje.titulo,
-          mensaje: mensaje.mensaje,
-          color: mensaje.color,
-          icono: mensaje.icono,
-        },
+      expect(respuesta.body.respuesta).toEqual({
+        titulo: mensaje.titulo,
+        mensaje: mensaje.mensaje,
+        color: mensaje.color,
+        icono: mensaje.icono,
       });
     });
     it("Should not generate payment with payment with deuda with abono < $350", async () => {
@@ -244,13 +222,11 @@ describe("Endpoints Pagos", () => {
       const mensaje = await getMensajes("badRequest");
 
       expect(respuesta.status).toBe(400);
-      expect(respuesta.body).toEqual({
-        respuesta: {
-          titulo: mensaje.titulo,
-          mensaje: mensaje.mensaje,
-          color: mensaje.color,
-          icono: mensaje.icono,
-        },
+      expect(respuesta.body.respuesta).toEqual({
+        titulo: mensaje.titulo,
+        mensaje: mensaje.mensaje,
+        color: mensaje.color,
+        icono: mensaje.icono,
       });
     });
   });
@@ -261,13 +237,11 @@ describe("Endpoints Pagos", () => {
       const mensaje = await getMensajes("forbiddenAccess");
 
       expect(respuesta.status).toBe(401);
-      expect(respuesta.body).toEqual({
-        respuesta: {
-          titulo: mensaje.titulo,
-          mensaje: mensaje.mensaje,
-          color: mensaje.color,
-          icono: mensaje.icono,
-        },
+      expect(respuesta.body.respuesta).toEqual({
+        titulo: mensaje.titulo,
+        mensaje: mensaje.mensaje,
+        color: mensaje.color,
+        icono: mensaje.icono,
       });
     });
     it("Should not access confirmation with invalid token", async () => {
@@ -278,13 +252,41 @@ describe("Endpoints Pagos", () => {
       const mensaje = await getMensajes("forbiddenAccess");
 
       expect(respuesta.status).toBe(401);
-      expect(respuesta.body).toEqual({
-        respuesta: {
-          titulo: mensaje.titulo,
-          mensaje: mensaje.mensaje,
-          color: mensaje.color,
-          icono: mensaje.icono,
-        },
+      expect(respuesta.body.respuesta).toEqual({
+        titulo: mensaje.titulo,
+        mensaje: mensaje.mensaje,
+        color: mensaje.color,
+        icono: mensaje.icono,
+      });
+    });
+  });
+  describe("POST /v1/pagos/flow-return", () => {
+    it("Should not access confirmation without token", async () => {
+      const respuesta = await request.post("/v1/pagos/flow-return");
+
+      const mensaje = await getMensajes("forbiddenAccess");
+
+      expect(respuesta.status).toBe(401);
+      expect(respuesta.body.respuesta).toEqual({
+        titulo: mensaje.titulo,
+        mensaje: mensaje.mensaje,
+        color: mensaje.color,
+        icono: mensaje.icono,
+      });
+    });
+    it("Should not access return with invalid token", async () => {
+      const respuesta = await request
+        .post("/v1/pagos/flow-return")
+        .send({ token: "token" });
+
+      const mensaje = await getMensajes("forbiddenAccess");
+
+      expect(respuesta.status).toBe(401);
+      expect(respuesta.body.respuesta).toEqual({
+        titulo: mensaje.titulo,
+        mensaje: mensaje.mensaje,
+        color: mensaje.color,
+        icono: mensaje.icono,
       });
     });
   });

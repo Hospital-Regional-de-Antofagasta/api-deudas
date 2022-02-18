@@ -1,52 +1,64 @@
 const pacientesController = require("../controllers/pacientesController");
-const { getMensajes } = require("../config");
-const { handleError } = require("../utils/errorHandler");
+const { handleError, sendCustomError } = require("../utils/errorHandler");
 const { isObjectEmpty } = require("../utils/utils");
 const { regex } = require("../utils/regexValidaciones");
 
 exports.validarPaciente = async (req, res, next) => {
-  console.log("validarPaciente", "validarPaciente")
   try {
     const paciente = await pacientesController.getPaciente(
       req.headers.authorization
     );
 
-    if (isObjectEmpty(paciente))
-      return res
-        .status(400)
-        .send({ respuesta: await getMensajes("pacienteNoEncontrado") });
+    if (isObjectEmpty(paciente) || typeof paciente != "object")
+      return await sendCustomError(
+        res,
+        400,
+        "pacienteNoEncontrado",
+        "Paciente no encontrado."
+      );
 
+    // retornar error de consulta
     if (!paciente.nombre)
-      return res
-        .status(400)
-        .send({ respuesta: await getMensajes("pacienteNoEncontrado"), detalles_error: paciente });
+      return await sendCustomError(res, 500, "errorPaciente", paciente);
 
     if (!paciente.datosContactoActualizados)
-      return res
-        .status(400)
-        .send({ respuesta: await getMensajes("datosContactoNoConfirmados") });
+      return await sendCustomError(
+        res,
+        400,
+        "datosContactoNoConfirmados",
+        "El paciente.datosContactoActualizados debe ser true."
+      );
 
     if (!paciente.correoCuerpo)
-      return res
-        .status(400)
-        .send({ respuesta: await getMensajes("emailNoEncontrado") });
+      return await sendCustomError(
+        res,
+        400,
+        "emailNoEncontrado",
+        "Debe exisitir el paciente.correoCuerpo."
+      );
 
     if (!paciente.correoExtension)
-      return res
-        .status(400)
-        .send({ respuesta: await getMensajes("emailNoEncontrado") });
+      return await sendCustomError(
+        res,
+        400,
+        "emailNoEncontrado",
+        "Debe exisitir el paciente.correoExtension."
+      );
 
     const email = `${paciente.correoCuerpo}@${paciente.correoExtension}`;
 
     if (!regex.correo.test(email))
-      return res
-        .status(400)
-        .send({ respuesta: await getMensajes("emailNoValido") });
+      return await sendCustomError(
+        res,
+        400,
+        "emailNoValido",
+        "El correo electrónico del paciente debe ser válido"
+      );
 
     req.emailPaciente = email;
 
     next();
   } catch (error) {
-    await handleError(error, req, res);
+    await handleError(res, error);
   }
 };

@@ -1,49 +1,61 @@
 const Deudas = require("../models/Deudas");
 const Pagos = require("../models/Pagos");
-const { getMensajes } = require("../config");
-const { handleError } = require("../utils/errorHandler");
+const { handleError, sendCustomError } = require("../utils/errorHandler");
 const { isObjectEmpty } = require("../utils/utils");
 
 exports.validarPagos = async (req, res, next) => {
-  console.log("validarPagos", "validarPagos");
   try {
     const pagos = req.body;
 
     if (!pagos)
-      return res
-        .status(400)
-        .send({ respuesta: await getMensajes("badRequest") });
+      return await sendCustomError(
+        res,
+        400,
+        "badRequest",
+        "Se debe ingresar los pagos."
+      );
 
     if (isObjectEmpty(pagos))
-      return res
-        .status(400)
-        .send({ respuesta: await getMensajes("badRequest") });
+      return await sendCustomError(
+        res,
+        400,
+        "badRequest",
+        "Se debe ingresar los pagos."
+      );
 
     if (pagos.length === 0)
-      return res
-        .status(400)
-        .send({ respuesta: await getMensajes("badRequest") });
+      return await sendCustomError(
+        res,
+        400,
+        "badRequest",
+        "Se debe ingresar los pagos."
+      );
 
     for (let pago of pagos) {
       if (!pago.idDeuda)
-        return res
-          .status(400)
-          .send({ respuesta: await getMensajes("badRequest") });
+        return await sendCustomError(
+          res,
+          400,
+          "badRequest",
+          "El 'idDeuda' es obligatorio."
+        );
 
       if (!pago.abono)
-        return res
-          .status(400)
-          .send({ respuesta: await getMensajes("badRequest") });
+        return await sendCustomError(
+          res,
+          400,
+          "badRequest",
+          "El 'abono' es obligatorio"
+        );
     }
 
     next();
   } catch (error) {
-    await handleError(error, req, res);
+    await handleError(res, error);
   }
 };
 
 exports.validarExisteDeuda = async (req, res, next) => {
-  console.log("validarPagos", "validarExisteDeuda");
   try {
     const pagos = req.body;
 
@@ -51,19 +63,21 @@ exports.validarExisteDeuda = async (req, res, next) => {
       const deuda = await Deudas.findOne({ _id: pago.idDeuda });
 
       if (!deuda)
-        return res
-          .status(400)
-          .send({ respuesta: await getMensajes("deudaNoEncontrada") });
+        return await sendCustomError(
+          res,
+          400,
+          "deudaNoEncontrada",
+          "No se pudo encontrar la deuda."
+        );
     }
 
     next();
   } catch (error) {
-    await handleError(error, req, res);
+    await handleError(res, error);
   }
 };
 
 exports.validarDeudaNoTengaPagoPendiente = async (req, res, next) => {
-  console.log("validarPagos", "validarDeudaNoTengaPagoPendiente");
   try {
     const pagos = req.body;
 
@@ -76,19 +90,21 @@ exports.validarDeudaNoTengaPagoPendiente = async (req, res, next) => {
       });
 
       if (pagosPendientes)
-        return res
-          .status(400)
-          .send({ respuesta: await getMensajes("pagoPendiente") });
+        return await sendCustomError(
+          res,
+          400,
+          "pagoPendiente",
+          "La deuda tiene un pago pendiente."
+        );
     }
 
     next();
   } catch (error) {
-    await handleError(error, req, res);
+    await handleError(res, error);
   }
 };
 
 exports.validarMonto = async (req, res, next) => {
-  console.log("validarPagos", "validarMonto");
   try {
     const pagos = req.body;
 
@@ -96,18 +112,24 @@ exports.validarMonto = async (req, res, next) => {
       const deuda = await Deudas.findOne({ _id: pago.idDeuda });
 
       if (pago.abono > deuda.deuda)
-        return res
-          .status(400)
-          .send({ respuesta: await getMensajes("badRequest") });
+        return await sendCustomError(
+          res,
+          400,
+          "badRequest",
+          "El 'abono' debe ser menor o igual a la deuda."
+        );
 
       if (pago.abono < 350)
-        return res
-          .status(400)
-          .send({ respuesta: await getMensajes("badRequest") });
+        return await sendCustomError(
+          res,
+          400,
+          "badRequest",
+          "El 'abono' debe ser mayor a $350."
+        );
     }
 
     next();
   } catch (error) {
-    await handleError(error, req, res);
+    await handleError(res, error);
   }
 };

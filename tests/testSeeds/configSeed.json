@@ -55,9 +55,39 @@
         "color": " -test",
         "icono": " -test"
       },
-      "flowError": {
+      "flowUnavailable": {
         "titulo": "Problema de conexion al medio de pago -test",
         "mensaje": "El medio de pago seleccionado no se encuentra disponible temporalmente. -test",
+        "color": " -test",
+        "icono": " -test"
+      },
+      "pagoRealizado": {
+        "titulo": "Pago exitoso -test",
+        "mensaje": "El pago fue realizado exitosamente, la boleta le será enviada a su correo electrónico en menos de 48 hrs. -test",
+        "color": " -test",
+        "icono": " -test"
+      },
+      "pagoAnulado": {
+        "titulo": "Pago anulado -test",
+        "mensaje": "No se pudo realizar el pago. -test",
+        "color": " -test",
+        "icono": " -test"
+      },
+      "pagoRechazado": {
+        "titulo": "Pago anulado -test",
+        "mensaje": "No se pudo realizar el pago. -test",
+        "color": " -test",
+        "icono": " -test"
+      },
+      "flowError": {
+        "titulo": "Problema de conexion al medio de pago -test",
+        "mensaje": "El pago no se pudo validar, la situación ha sido informada al departamento de finanzas y se regulará a la brevedad. -test",
+        "color": " -test",
+        "icono": " -test"
+      },
+      "errorPaciente": {
+        "titulo": "Problema de conexión a la api de pacientes -test",
+        "mensaje": "No se pudo obtener el paciente. -test",
         "color": " -test",
         "icono": " -test"
       }

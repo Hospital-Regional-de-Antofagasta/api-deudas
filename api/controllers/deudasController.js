@@ -8,6 +8,6 @@ exports.getDeudasPaciente = async (req, res) => {
       .exec();
     res.status(200).send(deudas);
   } catch (error) {
-    await handleError(error, req, res);
+    await handleError(res, error);
   }
 };

@@ -2,19 +2,19 @@ const ConfigApiDeudas = require("./models/ConfigApiDeudas");
 
 const mensajesPorDefecto = {
   forbiddenAccess: {
-    titulo: "Alerta",
+    titulo: "Acceso denegado",
     mensaje: "Su sesión ha expirado.",
     color: "",
     icono: "",
   },
   serverError: {
-    titulo: "Alerta",
+    titulo: "Error de servidor",
     mensaje: "Ocurrió un error inesperado.",
     color: "",
     icono: "",
   },
   badRequest: {
-    titulo: "Alerta",
+    titulo: "Datos no validos",
     mensaje: "La solicitud no está bien formada.",
     color: "",
     icono: "",
@@ -56,10 +56,45 @@ const mensajesPorDefecto = {
     color: "",
     icono: "",
   },
-  flowError: {
-    titulo: "Problema de conexion al medio de pago",
+  flowUnavailable: {
+    titulo: "Problema de conexión al medio de pago",
     mensaje:
       "El medio de pago seleccionado no se encuentra disponible temporalmente.",
+    color: "",
+    icono: "",
+  },
+  pagoRealizado: {
+    titulo: "Pago exitoso",
+    mensaje:
+      "El pago fue realizado exitosamente, la boleta le será enviada a su correo electrónico en menos de 48 hrs.",
+    color: "",
+    icono: "",
+  },
+  pagoAnulado: {
+    titulo: "Pago anulado",
+    mensaje:
+      "No se pudo realizar el pago.",
+    color: "",
+    icono: "",
+  },
+  pagoRechazado: {
+    titulo: "Pago anulado",
+    mensaje:
+      "No se pudo realizar el pago.",
+    color: "",
+    icono: "",
+  },
+  flowError: {
+    titulo: "Problema de conexión al medio de pago",
+    mensaje:
+      "El pago no se pudo validar, la situación ha sido informada al departamento de finanzas y se regulará a la brevedad.",
+    color: "",
+    icono: "",
+  },
+  errorPaciente: {
+    titulo: "Problema de conexión a la api de pacientes",
+    mensaje:
+      "No se pudo obtener el paciente.",
     color: "",
     icono: "",
   },
@@ -84,7 +119,7 @@ exports.getParametrosFlow = async () => {
     version: 1,
   }).exec();
 
-  if (!parametrosFlow?.subject) parametrosFlow.subject = "Deuda hospitalaría";
+  if (!parametrosFlow?.subject) parametrosFlow.subject = "Pago prestación hospitalaria.";
   if (!parametrosFlow?.currency) parametrosFlow.currency = "CLP";
   if (!parametrosFlow?.paymentMethod) parametrosFlow.paymentMethod = 1;
   if (!parametrosFlow?.timeout) parametrosFlow.timeout = 120;
