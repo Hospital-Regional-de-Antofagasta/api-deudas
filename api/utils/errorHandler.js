@@ -26,6 +26,7 @@ const sendServerError = async (res) => {
 };
 
 exports.handleError = async (res, error) => {
+  console.log(error)
   if (error.name === "ValidationError")
     return await sendValidationError(res, error);
   if (process.env.NODE_ENV === "dev" || process.env.NODE_ENV === "test")

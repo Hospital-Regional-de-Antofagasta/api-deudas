@@ -17,14 +17,14 @@ router.post(
   "/flow-confirmation",
   express.urlencoded({ extended: true }),
   validarToken,
-  flowController.confirmation
+  flowController.flowConfirmation
 );
 
 router.post(
   "/flow-return",
   express.urlencoded({ extended: true }),
   validarToken,
-  flowController.return
+  flowController.flowReturn
 );
 
 router.post(

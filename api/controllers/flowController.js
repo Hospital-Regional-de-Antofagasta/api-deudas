@@ -8,7 +8,7 @@ const apiKey = process.env.FLOW_API_KEY;
 const secretKey = process.env.FLOW_SECRET_KEY;
 const flowHosting = process.env.FLOW_HOSTING;
 
-exports.confirmation = async (req, res) => {
+const flowConfirmation = async (req, res) => {
   try {
     res.sendStatus(200);
   } catch (error) {
@@ -16,7 +16,7 @@ exports.confirmation = async (req, res) => {
   }
 };
 
-exports.return = async (req, res) => {
+const flowReturn = async (req, res) => {
   try {
     const { token } = req.body;
 
@@ -61,7 +61,7 @@ exports.return = async (req, res) => {
   }
 };
 
-exports.createFlowPayment = async (params) => {
+const createFlowPayment = async (params) => {
   params = await signParameters(params);
 
   const config = {
@@ -152,3 +152,10 @@ const signParameters = async (params) => {
   params.s = signedParams;
   return params;
 };
+
+module.exports = {
+  flowConfirmation,
+  flowReturn,
+  createFlowPayment,
+  cancelPaymentOrder,
+}

@@ -7,6 +7,8 @@ const ConfigApiDeudas = require("../api/models/ConfigApiDeudas");
 const configSeed = require("./testSeeds/configSeed.json");
 const Deudas = require("../api/models/Deudas");
 const deudasSeed = require("./testSeeds/deudasSeed.json");
+const Pagos = require("../api/models/Pagos");
+const pagosSeed = require("./testSeeds/pagosSeed.json");
 
 const request = supertest(app);
 
@@ -35,11 +37,13 @@ beforeEach(async () => {
     useUnifiedTopology: true,
   });
   await Deudas.create(deudasSeed);
+  await Pagos.create(pagosSeed);
   await ConfigApiDeudas.create(configSeed);
 });
 
 afterEach(async () => {
   await Deudas.deleteMany();
+  await Pagos.deleteMany();
   await ConfigApiDeudas.deleteMany();
   await mongoose.connection.close();
 });
@@ -118,6 +122,11 @@ describe("Endpoints Deuda", () => {
         expect(deudas[i].nombreEstablecimiento).toBe(
           orderedDeudas[i].nombreEstablecimiento
         );
+        if ((deudas[i].correlativo === 1)) {
+          expect(deudas[i].pagoEnProceso).toBeTruthy();
+        } else {
+          expect(deudas[i].pagoEnProceso).toBeFalsy();
+        }
       }
     });
   });
