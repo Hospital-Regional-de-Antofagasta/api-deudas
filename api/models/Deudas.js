@@ -11,7 +11,7 @@ const Deudas = mongoose.model(
       identificador: { type: String, required: true },
       valor: { type: Number, required: true },
       deuda: { type: Number, required: true },
-      tipo: { type: String, required: true, enum: ["DAU", "OA", "CH"] },
+      tipo: { type: String, required: true, enum: ["PAGARE"] },
       codigoEstablecimiento: { type: String, required: true, enum: ["HRA"] },
       nombreEstablecimiento: {
         type: String,
