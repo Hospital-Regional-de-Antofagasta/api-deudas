@@ -110,19 +110,17 @@ describe("Endpoints Deuda", () => {
         expect(Date.parse(deudas[i].fecha)).toBe(
           Date.parse(orderedDeudas[i].fecha)
         );
-        expect(deudas[i].identificadorPrograma).toBe(
-          orderedDeudas[i].identificadorPrograma
-        );
+        expect(deudas[i].identificador).toBe(orderedDeudas[i].identificador);
         expect(deudas[i].valor).toBe(orderedDeudas[i].valor);
         expect(deudas[i].deuda).toBe(orderedDeudas[i].deuda);
-        expect(deudas[i].tipoPrograma).toBe(orderedDeudas[i].tipoPrograma);
+        expect(deudas[i].tipo).toBe(orderedDeudas[i].tipo);
         expect(deudas[i].codigoEstablecimiento).toBe(
           orderedDeudas[i].codigoEstablecimiento
         );
         expect(deudas[i].nombreEstablecimiento).toBe(
           orderedDeudas[i].nombreEstablecimiento
         );
-        if ((deudas[i].correlativo === 1)) {
+        if (deudas[i].correlativo === 1) {
           expect(deudas[i].pagoEnProceso).toBeTruthy();
         } else {
           expect(deudas[i].pagoEnProceso).toBeFalsy();

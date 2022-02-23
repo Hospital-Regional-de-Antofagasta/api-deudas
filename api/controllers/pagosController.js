@@ -68,8 +68,8 @@ const detallesPago = async (pagos) => {
   for (let pago of pagos) {
     const deuda = await Deudas.findOne({ _id: pago.idDeuda }).exec();
     detallesPago.push({
-      identificadorPrograma: deuda.identificadorPrograma,
-      tipoPrograma: deuda.tipoPrograma,
+      identificador: deuda.identificador,
+      tipo: deuda.tipo,
       abono: pago.abono,
     });
   }
