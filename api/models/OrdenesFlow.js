@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const OrdenesFlow = mongoose.model(
-  "pago",
+  "ordenes_flow",
   new Schema(
     {
       token: { type: String, required: true },
@@ -36,7 +36,8 @@ const OrdenesFlow = mongoose.model(
       commerceOrder: { type: String, required: true },
     },
     { timestamps: true }
-  )
+  ),
+  "ordenes_flow"
 );
 
 module.exports = OrdenesFlow;
