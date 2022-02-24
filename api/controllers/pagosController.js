@@ -43,7 +43,7 @@ exports.crear = async (req, res) => {
     await Pagos.create({
       token,
       flowOrder,
-      deudas: pagos,
+      pagos,
       commerceOrder,
     });
 

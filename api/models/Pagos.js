@@ -20,7 +20,7 @@ const Pagos = mongoose.model(
           "ERROR_VALIDACION",
         ],
       },
-      deudas: {
+      pagos: {
         type: [
           {
             idDeuda: {

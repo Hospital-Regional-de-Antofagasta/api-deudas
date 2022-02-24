@@ -83,7 +83,7 @@ exports.validarDeudaNoTengaPagoPendiente = async (req, res, next) => {
 
     for (let pago of pagos) {
       const pagosPendientes = await Pagos.findOne({
-        "deudas.idDeuda": pago.idDeuda,
+        "pagos.idDeuda": pago.idDeuda,
         estado: {
           $in: ["EN_PROCESO", "PAGADO", "ERROR_FLOW", "ERROR_VALIDACION"],
         },

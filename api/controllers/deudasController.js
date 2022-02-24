@@ -12,7 +12,7 @@ exports.getDeudasPaciente = async (req, res) => {
 
     for (let deuda of deudas) {
       const pagosEnProceso = await Pagos.find({
-        "deudas.idDeuda": deuda._id,
+        "pagos.idDeuda": deuda._id,
         estado: {
           $in: ["EN_PROCESO"],
         },
@@ -23,7 +23,7 @@ exports.getDeudasPaciente = async (req, res) => {
       }
 
       const pagoPendiente = await Pagos.findOne({
-        "deudas.idDeuda": deuda._id,
+        "pagos.idDeuda": deuda._id,
         estado: {
           $in: ["PAGADO", "ERROR_FLOW", "ERROR_VALIDACION"],
         },
