@@ -1,5 +1,5 @@
 const { v4: uuidv4 } = require("uuid");
-const Pagos = require("../models/Pagos");
+const OrdenesFlow = require("../models/OrdenesFlow");
 const Deudas = require("../models/Deudas");
 const flowController = require("../controllers/flowController");
 const { getParametrosFlow } = require("../config");
@@ -40,7 +40,7 @@ exports.crear = async (req, res) => {
     if (!token || !url || !flowOrder)
       return await sendCustomError(res, 500, "flowUnavailable", flowPayment);
 
-    await Pagos.create({
+    await OrdenesFlow.create({
       token,
       flowOrder,
       pagos,

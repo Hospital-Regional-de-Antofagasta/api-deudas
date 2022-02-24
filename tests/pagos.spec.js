@@ -7,7 +7,7 @@ const ConfigApiDeudas = require("../api/models/ConfigApiDeudas");
 const configSeed = require("./testSeeds/configSeed.json");
 const Deudas = require("../api/models/Deudas");
 const deudasSeed = require("./testSeeds/deudasSeed.json");
-const Pagos = require("../api/models/Pagos");
+const OrdenesFlow = require("../api/models/OrdenesFlow");
 const pagosSeed = require("./testSeeds/pagosSeed.json");
 
 const request = supertest(app);
@@ -29,18 +29,18 @@ beforeEach(async () => {
     useUnifiedTopology: true,
   });
   await Deudas.create(deudasSeed);
-  await Pagos.create(pagosSeed);
+  await OrdenesFlow.create(pagosSeed);
   await ConfigApiDeudas.create(configSeed);
 });
 
 afterEach(async () => {
   await Deudas.deleteMany();
-  await Pagos.deleteMany();
+  await OrdenesFlow.deleteMany();
   await ConfigApiDeudas.deleteMany();
   await mongoose.connection.close();
 });
 
-describe("Endpoints Pagos", () => {
+describe("Endpoints pagos", () => {
   describe("POST /v1/pagos", () => {
     it("Should not generate payment without token", async () => {
       const respuesta = await request.post("/v1/pagos");

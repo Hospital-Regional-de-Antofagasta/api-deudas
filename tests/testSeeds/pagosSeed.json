@@ -2,7 +2,7 @@
   {
     "token": "123",
     "flowOrder": "123",
-    "estado": "PAGADO",
+    "estado": "PAGADA",
     "pagos": [
       {
         "idDeuda": "000000000001",

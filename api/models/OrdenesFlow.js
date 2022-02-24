@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-const Pagos = mongoose.model(
+const OrdenesFlow = mongoose.model(
   "pago",
   new Schema(
     {
@@ -12,11 +12,11 @@ const Pagos = mongoose.model(
         default: "EN_PROCESO",
         enum: [
           "EN_PROCESO",
-          "PAGADO",
-          "ANULADO",
-          "RECHAZADO",
+          "PAGADA",
+          "ANULADA",
+          "RECHAZADA",
           "ERROR_FLOW",
-          "VALIDADO",
+          "VALIDADA",
           "ERROR_VALIDACION",
         ],
       },
@@ -39,4 +39,4 @@ const Pagos = mongoose.model(
   )
 );
 
-module.exports = Pagos;
+module.exports = OrdenesFlow;

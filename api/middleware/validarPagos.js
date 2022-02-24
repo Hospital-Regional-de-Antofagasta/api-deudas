@@ -1,5 +1,5 @@
 const Deudas = require("../models/Deudas");
-const Pagos = require("../models/Pagos");
+const OrdenesFlow = require("../models/OrdenesFlow");
 const { handleError, sendCustomError } = require("../utils/errorHandler");
 const { isObjectEmpty } = require("../utils/utils");
 
@@ -82,10 +82,10 @@ exports.validarDeudaNoTengaPagoPendiente = async (req, res, next) => {
     const pagos = req.body;
 
     for (let pago of pagos) {
-      const pagosPendientes = await Pagos.findOne({
+      const pagosPendientes = await OrdenesFlow.findOne({
         "pagos.idDeuda": pago.idDeuda,
         estado: {
-          $in: ["EN_PROCESO", "PAGADO", "ERROR_FLOW", "ERROR_VALIDACION"],
+          $in: ["EN_PROCESO", "PAGADA", "ERROR_FLOW", "ERROR_VALIDACION"],
         },
       });
 

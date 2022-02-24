@@ -1,5 +1,5 @@
 var CryptoJS = require("crypto-js");
-const Pagos = require("../models/Pagos");
+const OrdenesFlow = require("../models/OrdenesFlow");
 const { getMensajes } = require("../config");
 const { httpRequest } = require("../utils/httpRequests");
 const { handleError, sendCustomError } = require("../utils/errorHandler");
@@ -23,7 +23,7 @@ const flowReturn = async (req, res) => {
     const paymentStatus = await getPaymentStatus({ token });
 
     if (!paymentStatus.flowOrder) {
-      await Pagos.updateOne({ token }, { estado: "ERROR_FLOW" }).exec();
+      await OrdenesFlow.updateOne({ token }, { estado: "ERROR_FLOW" }).exec();
       return await sendCustomError(res, 500, "flowError", paymentStatus);
     }
 
@@ -34,26 +34,29 @@ const flowReturn = async (req, res) => {
       case 1:
         const canceledOrder = await cancelPaymentOrder({ token });
         if (!canceledOrder.flowOrder) {
-          await Pagos.updateOne({ token }, { estado: "ERROR_FLOW" }).exec();
+          await OrdenesFlow.updateOne(
+            { token },
+            { estado: "ERROR_FLOW" }
+          ).exec();
           return await sendCustomError(res, 500, "flowError", canceledOrder);
         }
-        estado = "ANULADO";
+        estado = "ANULADA";
         respuesta = await getMensajes("pagoAnulado");
         break;
       case 2:
-        estado = "PAGADO";
+        estado = "PAGADA";
         respuesta = await getMensajes("pagoRealizado");
         break;
       case 3:
-        estado = "RECHAZADO";
+        estado = "RECHAZADA";
         respuesta = await getMensajes("pagoRechazado");
         break;
       case 4:
-        estado = "ANULADO";
+        estado = "ANULADA";
         respuesta = await getMensajes("pagoAnulado");
         break;
     }
-    await Pagos.updateOne({ token }, { estado }).exec();
+    await OrdenesFlow.updateOne({ token }, { estado }).exec();
 
     res.status(200).send({ estado, respuesta });
   } catch (error) {
@@ -158,4 +161,4 @@ module.exports = {
   flowReturn,
   createFlowPayment,
   cancelPaymentOrder,
-}
+};

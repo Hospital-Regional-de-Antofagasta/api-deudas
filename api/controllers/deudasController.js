@@ -1,5 +1,5 @@
 const Deudas = require("../models/Deudas");
-const Pagos = require("../models/Pagos");
+const OrdenesFlow = require("../models/OrdenesFlow");
 const flowController = require("../controllers/flowController");
 const { handleError } = require("../utils/errorHandler");
 
@@ -11,7 +11,7 @@ exports.getDeudasPaciente = async (req, res) => {
       .exec();
 
     for (let deuda of deudas) {
-      const pagosEnProceso = await Pagos.find({
+      const pagosEnProceso = await OrdenesFlow.find({
         "pagos.idDeuda": deuda._id,
         estado: {
           $in: ["EN_PROCESO"],
@@ -22,10 +22,10 @@ exports.getDeudasPaciente = async (req, res) => {
         await cancelarOrdenPago(pago);
       }
 
-      const pagoPendiente = await Pagos.findOne({
+      const pagoPendiente = await OrdenesFlow.findOne({
         "pagos.idDeuda": deuda._id,
         estado: {
-          $in: ["PAGADO", "ERROR_FLOW", "ERROR_VALIDACION"],
+          $in: ["PAGADA", "ERROR_FLOW", "ERROR_VALIDACION"],
         },
       }).exec();
 
@@ -45,12 +45,15 @@ const cancelarOrdenPago = async (pago) => {
   });
   // si no se pudo cancelar la orden actualizar estado a ERROR_FLOW
   if (!canceledOrder.flowOrder) {
-    await Pagos.updateOne(
+    await OrdenesFlow.updateOne(
       { token: pago.token },
       { estado: "ERROR_FLOW" }
     ).exec();
     return;
   }
-  await Pagos.updateOne({ token: pago.token }, { estado: "ANULADO" }).exec();
+  await OrdenesFlow.updateOne(
+    { token: pago.token },
+    { estado: "ANULADA" }
+  ).exec();
   return;
 };
