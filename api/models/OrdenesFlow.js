@@ -18,6 +18,7 @@ const OrdenesFlow = mongoose.model(
           "ERROR_FLOW",
           "VALIDADA",
           "ERROR_VALIDACION",
+          "EN_REGULARIZACION",
         ],
       },
       pagos: {
