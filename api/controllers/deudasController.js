@@ -25,7 +25,7 @@ exports.getDeudasPaciente = async (req, res) => {
       const pagoPendiente = await OrdenesFlow.findOne({
         "pagos.idDeuda": deuda._id,
         estado: {
-          $in: ["PAGADA", "ERROR_FLOW", "ERROR_VALIDACION"],
+          $in: ["EN_PROCESO", "PAGADA", "ERROR_FLOW", "ERROR_VALIDACION", "EN_REGULARIZACION"],
         },
       }).exec();
 
