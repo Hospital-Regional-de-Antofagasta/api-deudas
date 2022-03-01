@@ -13,7 +13,7 @@
         KEY: ${{ secrets.GCP_KEY }}
         API_ZONE: ${{ secrets.GCP_ZONE_QA }}
         API_CLUSTER: ${{ secrets.GCP_CLUSTER_QA }}
-        API_KEY: ${{ secrets.API_KEY }}
+        API_KEY: ${{ secrets.API_KEY_QA }}
         MONGO_IP: ${{ secrets.MONGO_IP_QA }}
         NODE_ENV: "dev"
         BASE_URL: ${{ secrets.BASE_URL_QA }}

@@ -12,7 +12,7 @@
         KEY: ${{ secrets.GCP_KEY }}
         API_ZONE: ${{ secrets.GCP_ZONE_PROD }}
         API_CLUSTER: ${{ secrets.GCP_CLUSTER_PROD }}
-        API_KEY: ${{ secrets.API_KEY }}
+        API_KEY: ${{ secrets.API_KEY_PROD }}
         MONGO_IP: ${{ secrets.MONGO_IP_PROD }}
         NODE_ENV: "prod"
         BASE_URL: ${{ secrets.BASE_URL_PROD }}
