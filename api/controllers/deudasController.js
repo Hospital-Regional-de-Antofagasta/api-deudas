@@ -11,6 +11,11 @@ exports.getDeudasPaciente = async (req, res) => {
       .exec();
 
     for (let deuda of deudas) {
+      if (deuda.rutPaciente === deuda.rutDeudor) deuda.nombreDeudor = null;
+
+      deuda.rutDeudor = null;
+      deuda.rutPaciente = null;
+
       const pagosEnProceso = await OrdenesFlow.find({
         "pagos.idDeuda": deuda._id,
         estado: {

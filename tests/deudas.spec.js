@@ -120,6 +120,12 @@ describe("Endpoints Deuda", () => {
         expect(deudas[i].nombreEstablecimiento).toBe(
           orderedDeudas[i].nombreEstablecimiento
         );
+        expect(deudas[i].rutDeudor).toBeFalsy();
+        if (orderedDeudas[i].rutPaciente === orderedDeudas[i].rutDeudor) {
+          expect(deudas[i].nombreDeudor).toBeFalsy();
+        } else {
+          expect(deudas[i].nombreDeudor).toBe(orderedDeudas[i].nombreDeudor);
+        }
         if (deudas[i].correlativo === 1) {
           expect(deudas[i].pagoEnProceso).toBeTruthy();
         } else {

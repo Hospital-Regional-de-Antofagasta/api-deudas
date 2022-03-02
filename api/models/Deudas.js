@@ -6,7 +6,7 @@ const Deudas = mongoose.model(
   new Schema(
     {
       correlativo: { type: Number, required: true },
-      rutPaciente: { type: String, required: true, select: false },
+      rutPaciente: { type: String, required: true },
       fecha: { type: Date, required: true },
       identificador: { type: String, required: true },
       valor: { type: Number, required: true },
@@ -18,6 +18,8 @@ const Deudas = mongoose.model(
         required: true,
         enum: ["Hospital Regional Antofagasta Dr. Leonardo Guzmán"],
       },
+      rutDeudor: { type: String, required: true },
+      nombreDeudor: { type: String, required: true }
     },
     { timestamps: true }
   )
