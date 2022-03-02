@@ -16,6 +16,9 @@ exports.getDeudasPaciente = async (req, res) => {
       deuda.rutDeudor = null;
       deuda.rutPaciente = null;
 
+      delete deuda.rutDeudor;
+      delete deuda.rutPaciente;
+
       const pagosEnProceso = await OrdenesFlow.find({
         "pagos.idDeuda": deuda._id,
         estado: {
