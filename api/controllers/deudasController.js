@@ -5,10 +5,12 @@ const { handleError } = require("../utils/errorHandler");
 
 exports.getDeudasPaciente = async (req, res) => {
   try {
-    const deudas = await Deudas.find({ rutPaciente: req.rutPaciente })
-      .sort({ fecha: 1 })
-      .lean()
-      .exec();
+    const { filtro } = req.query;
+    const filter = { rutPaciente: req.rutPaciente };
+    if (filtro === "no_pagadas") filter.deuda = { $gt: 0 };
+    if (filtro === "pagadas") filter.deuda = { $eq: 0 };
+
+    const deudas = await Deudas.find(filter).sort({ fecha: 1 }).lean().exec();
 
     for (let deuda of deudas) {
       if (deuda.rutPaciente === deuda.rutDeudor) deuda.nombreDeudor = null;
@@ -33,7 +35,13 @@ exports.getDeudasPaciente = async (req, res) => {
       const pagoPendiente = await OrdenesFlow.findOne({
         "pagos.idDeuda": deuda._id,
         estado: {
-          $in: ["EN_PROCESO", "PAGADA", "ERROR_FLOW", "ERROR_VALIDACION", "EN_REGULARIZACION"],
+          $in: [
+            "EN_PROCESO",
+            "PAGADA",
+            "ERROR_FLOW",
+            "ERROR_VALIDACION",
+            "EN_REGULARIZACION",
+          ],
         },
       }).exec();
 

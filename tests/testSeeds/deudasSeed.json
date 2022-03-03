@@ -195,5 +195,31 @@
     "nombreEstablecimiento": "Hospital Regional Antofagasta Dr. Leonardo Guzmán",
     "rutDeudor": "11111111-1",
     "nombreDeudor": "nombre deudor"
+  },
+  {
+    "correlativo": 40,
+    "rutPaciente": "11111111-1",
+    "fecha": "2000-02-25",
+    "identificador": "65866",
+    "valor": 9999,
+    "deuda": 0,
+    "tipo": "PAGARE",
+    "codigoEstablecimiento": "HRA",
+    "nombreEstablecimiento": "Hospital Regional Antofagasta Dr. Leonardo Guzmán",
+    "rutDeudor": "11111111-1",
+    "nombreDeudor": "nombre deudor"
+  },
+  {
+    "correlativo": 41,
+    "rutPaciente": "22222222-2",
+    "fecha": "2000-02-26",
+    "identificador": "65867",
+    "valor": 10999,
+    "deuda": 0,
+    "tipo": "PAGARE",
+    "codigoEstablecimiento": "HRA",
+    "nombreEstablecimiento": "Hospital Regional Antofagasta Dr. Leonardo Guzmán",
+    "rutDeudor": "11111111-1",
+    "nombreDeudor": "nombre deudor"
   }
 ]
