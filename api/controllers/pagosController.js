@@ -10,6 +10,7 @@ const baseUrl = process.env.BASE_URL;
 exports.crear = async (req, res) => {
   try {
     const pagos = req.body;
+    const rutPaciente = req.rutPaciente;
 
     const { subject, currency, paymentMethod, timeout, payment_currency } =
       await getParametrosFlow();
@@ -45,6 +46,7 @@ exports.crear = async (req, res) => {
       flowOrder,
       pagos,
       commerceOrder,
+      rutPaciente,
     });
 
     const urlPagar = `${url}?token=${token}`;
