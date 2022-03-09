@@ -39,7 +39,7 @@ exports.getDeudasPaciente = async (req, res) => {
             "EN_PROCESO",
             "PAGADA",
             "ERROR_FLOW",
-            "ERROR_VALIDACION",
+            "EN_VALIDACION",
             "EN_REGULARIZACION",
           ],
         },
