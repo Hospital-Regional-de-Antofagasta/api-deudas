@@ -82,7 +82,7 @@ const detallesPago = async (pagos) => {
 
 const cancelarOrdenesPagosPendientes = async (pagos) => {
   for (let pago of pagos) {
-    const pagoEnProceso = await OrdenesFlow.find({
+    const pagoEnProceso = await OrdenesFlow.findOne({
       "pagos.idDeuda": pago.idDeuda,
       estado: {
         $in: ["EN_PROCESO"],
