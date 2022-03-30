@@ -7,10 +7,12 @@ const { handleError, sendCustomError } = require("../utils/errorHandler");
 
 const baseUrl = process.env.BASE_URL;
 
-exports.crear = async (req, res) => {
+const crear = async (req, res) => {
   try {
     const pagos = req.body;
     const rutPaciente = req.rutPaciente;
+
+    await cancelarOrdenesPagosPendientes(pagos);
 
     const { subject, currency, paymentMethod, timeout, payment_currency } =
       await getParametrosFlow();
@@ -77,3 +79,36 @@ const detallesPago = async (pagos) => {
   }
   return detallesPago;
 };
+
+const cancelarOrdenesPagosPendientes = async (pagos) => {
+  for (let pago of pagos) {
+    const pagoEnProceso = await OrdenesFlow.find({
+      "pagos.idDeuda": pago.idDeuda,
+      estado: {
+        $in: ["EN_PROCESO"],
+      },
+    }).exec();
+    if (pagoEnProceso) cancelarOrdenPago(pagoEnProceso);
+  }
+};
+
+const cancelarOrdenPago = async (pago) => {
+  const canceledOrder = await flowController.cancelPaymentOrder({
+    token: pago.token,
+  });
+  // si no se pudo cancelar la orden actualizar estado a ERROR_FLOW
+  if (!canceledOrder.flowOrder) {
+    await OrdenesFlow.updateOne(
+      { token: pago.token },
+      { estado: "ERROR_FLOW" }
+    ).exec();
+    return;
+  }
+  await OrdenesFlow.updateOne(
+    { token: pago.token },
+    { estado: "ANULADA" }
+  ).exec();
+  return;
+};
+
+module.exports = { cancelarOrdenPago, crear };

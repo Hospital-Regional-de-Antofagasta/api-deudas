@@ -1,6 +1,6 @@
 const Deudas = require("../models/Deudas");
 const OrdenesFlow = require("../models/OrdenesFlow");
-const flowController = require("../controllers/flowController");
+const { cancelarOrdenPago } = require("../controllers/pagosController");
 const { handleError } = require("../utils/errorHandler");
 
 exports.getDeudasPaciente = async (req, res) => {
@@ -53,23 +53,4 @@ exports.getDeudasPaciente = async (req, res) => {
   } catch (error) {
     await handleError(res, error);
   }
-};
-
-const cancelarOrdenPago = async (pago) => {
-  const canceledOrder = await flowController.cancelPaymentOrder({
-    token: pago.token,
-  });
-  // si no se pudo cancelar la orden actualizar estado a ERROR_FLOW
-  if (!canceledOrder.flowOrder) {
-    await OrdenesFlow.updateOne(
-      { token: pago.token },
-      { estado: "ERROR_FLOW" }
-    ).exec();
-    return;
-  }
-  await OrdenesFlow.updateOne(
-    { token: pago.token },
-    { estado: "ANULADA" }
-  ).exec();
-  return;
 };
