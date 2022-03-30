@@ -32,7 +32,7 @@ router.post(
   isAuthenticated,
   validarPagos,
   validarExisteDeuda,
-  validarDeudaNoTengaPagoPendiente,
+  // validarDeudaNoTengaPagoPendiente,
   validarMonto,
   validarPaciente,
   pagosController.crear

@@ -181,22 +181,22 @@ describe("Endpoints pagos", () => {
         icono: mensaje.icono,
       });
     });
-    it("Should not generate payment with payment with deuda with pending payment", async () => {
-      const respuesta = await request
-        .post("/v1/pagos")
-        .set("Authorization", token)
-        .send([{ idDeuda: "000000000001", abono: 1000 }]);
+    // it("Should not generate payment with payment with deuda with pending payment", async () => {
+    //   const respuesta = await request
+    //     .post("/v1/pagos")
+    //     .set("Authorization", token)
+    //     .send([{ idDeuda: "000000000001", abono: 1000 }]);
 
-      const mensaje = await getMensajes("pagoPendiente");
+    //   const mensaje = await getMensajes("pagoPendiente");
 
-      expect(respuesta.status).toBe(400);
-      expect(respuesta.body.respuesta).toEqual({
-        titulo: mensaje.titulo,
-        mensaje: mensaje.mensaje,
-        color: mensaje.color,
-        icono: mensaje.icono,
-      });
-    });
+    //   expect(respuesta.status).toBe(400);
+    //   expect(respuesta.body.respuesta).toEqual({
+    //     titulo: mensaje.titulo,
+    //     mensaje: mensaje.mensaje,
+    //     color: mensaje.color,
+    //     icono: mensaje.icono,
+    //   });
+    // });
     it("Should not generate payment with payment with deuda with abono > deuda", async () => {
       const respuesta = await request
         .post("/v1/pagos")
