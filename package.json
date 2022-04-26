@@ -20,8 +20,8 @@
     "type": "git",
     "url": "git+https://github.com/Hospital-Regional-de-Antofagasta/api-deudas.git"
   },
-  "author": "",
-  "license": "ISC",
+  "author": "Pablo Fontecilla Busch",
+  "license": "GPL-3.0",
   "bugs": {
     "url": "https://github.com/Hospital-Regional-de-Antofagasta/api-deudas/issues"
   },

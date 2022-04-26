@@ -5,8 +5,12 @@ const OrdenesFlow = mongoose.model(
   "ordenes_flow",
   new Schema(
     {
-      token: { type: String, required: true },
       flowOrder: { type: String, required: true },
+      token: { type: String, required: true },
+      commerceOrder: { type: String, required: true },
+      rutPaciente: { type: String, required: true },
+      emailPagador: { type: String, required: true },
+      rutPagador: { type: String, required: true },
       estado: {
         type: String,
         default: "EN_PROCESO",
@@ -16,27 +20,33 @@ const OrdenesFlow = mongoose.model(
           "ANULADA",
           "RECHAZADA",
           "ERROR_FLOW",
-          "VALIDADA",
-          "EN_VALIDACION",
-          "EN_NOTIFICACION",
-          "EN_REGULARIZACION",
+          "ERROR_FLOW_CONFIRMADO",
+          "ERROR_FLOW_INFORMADO",
         ],
+      },
+      registradoEnEstablecimiento: {
+        type: Boolean,
+        required: true,
+        default: false,
       },
       pagos: {
         type: [
           {
-            idDeuda: {
-              type: Schema.Types.ObjectId,
-              ref: "deudas",
+            identificadorDeuda: { type: String, required: true },
+            tipoDeuda: { type: String, required: true, enum: ["PAGARE"] },
+            codigoEstablecimientoDeuda: {
+              type: String,
+              required: true,
+              enum: ["HRA"],
+            },
+            abono: {
+              type: Number,
               required: true,
             },
-            abono: { type: Number, required: true },
           },
         ],
         required: true,
       },
-      commerceOrder: { type: String, required: true },
-      rutPaciente: { type: String, required: true },
     },
     { timestamps: true }
   ),

@@ -37,20 +37,20 @@ beforeEach(async () => {
     useUnifiedTopology: true,
   });
   await Deudas.create(deudasSeed);
-  await OrdenesFlow.create(pagosSeed);
+  // await OrdenesFlow.create(pagosSeed);
   await ConfigApiDeudas.create(configSeed);
 });
 
 afterEach(async () => {
   await Deudas.deleteMany();
-  await OrdenesFlow.deleteMany();
+  // await OrdenesFlow.deleteMany();
   await ConfigApiDeudas.deleteMany();
   await mongoose.connection.close();
 });
 
-describe("Endpoints Deuda", () => {
+describe("Endpoints Deudas", () => {
   describe("GET /v1/deudas/paciente", () => {
-    it("should not get deuda without token", async () => {
+    it("Debería retornar error si no se recibe token.", async () => {
       const respuesta = await request.get("/v1/deudas/paciente");
 
       const mensaje = await getMensajes("forbiddenAccess");
@@ -65,7 +65,7 @@ describe("Endpoints Deuda", () => {
         },
       });
     });
-    it("should not get deuda with invalid token", async () => {
+    it("Debería retornar error si el token es invalido.", async () => {
       const respuesta = await request
         .get("/v1/deudas/paciente")
         .set("Authorization", "no-token");
@@ -82,7 +82,7 @@ describe("Endpoints Deuda", () => {
         },
       });
     });
-    it("should get no deuda if paciente has none", async () => {
+    it("Debería retornar un arreglo vacío si el paciente no tiene deudas.", async () => {
       const respuesta = await request
         .get("/v1/deudas/paciente")
         .set("Authorization", tokenSinDeuda);
@@ -90,134 +90,95 @@ describe("Endpoints Deuda", () => {
       expect(respuesta.status).toBe(200);
       expect(respuesta.body).toEqual([]);
     });
-    it("should get all deudas from paciente", async () => {
+    it("Debería retornar todas las deudas de un paciente.", async () => {
       const respuesta = await request
         .get("/v1/deudas/paciente")
         .set("Authorization", token);
 
       expect(respuesta.status).toBe(200);
 
-      const deudas = respuesta.body;
-      const orderedDeudas = deudasSeed
-        .filter((e) => e.rutPaciente === "11111111-1")
-        .sort((a, b) => new Date(a.fecha) - new Date(b.fecha));
-
-      expect(deudas.length).toBe(10);
-
-      for (let i = 0; i < orderedDeudas.length; i++) {
-        expect(deudas[i].correlativo).toBe(orderedDeudas[i].correlativo);
-        expect(deudas[i].rutPaciente).toBeFalsy();
-        expect(Date.parse(deudas[i].fecha)).toBe(
-          Date.parse(orderedDeudas[i].fecha)
-        );
-        expect(deudas[i].identificador).toBe(orderedDeudas[i].identificador);
-        expect(deudas[i].valor).toBe(orderedDeudas[i].valor);
-        expect(deudas[i].deuda).toBe(orderedDeudas[i].deuda);
-        expect(deudas[i].tipo).toBe(orderedDeudas[i].tipo);
-        expect(deudas[i].codigoEstablecimiento).toBe(
-          orderedDeudas[i].codigoEstablecimiento
-        );
-        expect(deudas[i].nombreEstablecimiento).toBe(
-          orderedDeudas[i].nombreEstablecimiento
-        );
-        expect(deudas[i].rutDeudor).toBeFalsy();
-        if (orderedDeudas[i].rutPaciente === orderedDeudas[i].rutDeudor) {
-          expect(deudas[i].nombreDeudor).toBeFalsy();
-        } else {
-          expect(deudas[i].nombreDeudor).toBe(orderedDeudas[i].nombreDeudor);
-        }
-        if (deudas[i].correlativo === 1) {
-          expect(deudas[i].pagoEnProceso).toBeTruthy();
-        } else {
-          expect(deudas[i].pagoEnProceso).toBeFalsy();
-        }
-      }
+      expect(respuesta.body.length).toBe(6);
     });
-    it("should get deuda > 0 from paciente", async () => {
+    it("Debería retornar todos los datos de una deuda.", async () => {
       const respuesta = await request
-        .get("/v1/deudas/paciente?filtro=no_pagadas")
+        .get("/v1/deudas/paciente")
         .set("Authorization", token);
 
       expect(respuesta.status).toBe(200);
 
-      const deudas = respuesta.body;
-      const orderedDeudas = deudasSeed
-        .filter((e) => e.rutPaciente === "11111111-1" && e.deuda > 0)
-        .sort((a, b) => new Date(a.fecha) - new Date(b.fecha));
+      expect(respuesta.body.length).toBe(6);
 
-      expect(deudas.length).toBe(9);
-
-      for (let i = 0; i < orderedDeudas.length; i++) {
-        expect(deudas[i].correlativo).toBe(orderedDeudas[i].correlativo);
-        expect(deudas[i].rutPaciente).toBeFalsy();
-        expect(Date.parse(deudas[i].fecha)).toBe(
-          Date.parse(orderedDeudas[i].fecha)
-        );
-        expect(deudas[i].identificador).toBe(orderedDeudas[i].identificador);
-        expect(deudas[i].valor).toBe(orderedDeudas[i].valor);
-        expect(deudas[i].deuda).toBe(orderedDeudas[i].deuda);
-        expect(deudas[i].tipo).toBe(orderedDeudas[i].tipo);
-        expect(deudas[i].codigoEstablecimiento).toBe(
-          orderedDeudas[i].codigoEstablecimiento
-        );
-        expect(deudas[i].nombreEstablecimiento).toBe(
-          orderedDeudas[i].nombreEstablecimiento
-        );
-        expect(deudas[i].rutDeudor).toBeFalsy();
-        if (orderedDeudas[i].rutPaciente === orderedDeudas[i].rutDeudor) {
-          expect(deudas[i].nombreDeudor).toBeFalsy();
-        } else {
-          expect(deudas[i].nombreDeudor).toBe(orderedDeudas[i].nombreDeudor);
-        }
-        if (deudas[i].correlativo === 1) {
-          expect(deudas[i].pagoEnProceso).toBeTruthy();
-        } else {
-          expect(deudas[i].pagoEnProceso).toBeFalsy();
-        }
-      }
+      expect(respuesta.body[0]._id).toBeFalsy();
+      expect(respuesta.body[0].identificador).toBe("651456027");
+      expect(respuesta.body[0].tipo).toBe("PAGARE");
+      expect(respuesta.body[0].codigoEstablecimiento).toBe("HRA");
+      expect(respuesta.body[0].correlativo).toBeFalsy();
+      expect(respuesta.body[0].rutPaciente).toBeFalsy();
+      expect(Date.parse(respuesta.body[0].fecha)).toBe(
+        Date.parse("2021/10/01")
+      );
+      expect(respuesta.body[0].valor).toBe(6490);
+      expect(respuesta.body[0].deuda).toBe(4999);
+      expect(respuesta.body[0].rutDeudor).toBeFalsy();
+      expect(respuesta.body[0].nombreDeudor).toBe("Berte Bingell");
+      expect(respuesta.body[0].nombreEstablecimiento).toBe(
+        "Hospital Regional Antofagasta Dr. Leonardo Guzmán"
+      );
     });
-    it("should get deuda = 0 from paciente", async () => {
+    it("Debería retornar las deudas ordenadas por fecha de manera descendente.", async () => {
       const respuesta = await request
-        .get("/v1/deudas/paciente?filtro=pagadas")
+        .get("/v1/deudas/paciente")
         .set("Authorization", token);
 
       expect(respuesta.status).toBe(200);
 
-      const deudas = respuesta.body;
-      const orderedDeudas = deudasSeed
-        .filter((e) => e.rutPaciente === "11111111-1" && e.deuda === 0)
-        .sort((a, b) => new Date(a.fecha) - new Date(b.fecha));
+      expect(respuesta.body.length).toBe(6);
 
-      expect(deudas.length).toBe(1);
+      expect(respuesta.body[0].identificador).toBe("651456027"); // 2021/10/01
+      expect(respuesta.body[1].identificador).toBe("152234576"); // 2021/10/06
+      expect(respuesta.body[2].identificador).toBe("338485606"); // 2021/10/23
+      expect(respuesta.body[3].identificador).toBe("134766680"); // 2021/11/25
+      expect(respuesta.body[4].identificador).toBe("980338428"); // 2022/02/23
+      expect(respuesta.body[5].identificador).toBe("947570447"); // 2022/03/07
+    });
+    it('Debería solo retornar deudas con deuda > 0 si se recibe "pagadas=false".', async () => {
+      const respuesta = await request
+        .get("/v1/deudas/paciente?pagadas=false")
+        .set("Authorization", token);
 
-      for (let i = 0; i < orderedDeudas.length; i++) {
-        expect(deudas[i].correlativo).toBe(orderedDeudas[i].correlativo);
-        expect(deudas[i].rutPaciente).toBeFalsy();
-        expect(Date.parse(deudas[i].fecha)).toBe(
-          Date.parse(orderedDeudas[i].fecha)
-        );
-        expect(deudas[i].identificador).toBe(orderedDeudas[i].identificador);
-        expect(deudas[i].valor).toBe(orderedDeudas[i].valor);
-        expect(deudas[i].deuda).toBe(orderedDeudas[i].deuda);
-        expect(deudas[i].tipo).toBe(orderedDeudas[i].tipo);
-        expect(deudas[i].codigoEstablecimiento).toBe(
-          orderedDeudas[i].codigoEstablecimiento
-        );
-        expect(deudas[i].nombreEstablecimiento).toBe(
-          orderedDeudas[i].nombreEstablecimiento
-        );
-        expect(deudas[i].rutDeudor).toBeFalsy();
-        if (orderedDeudas[i].rutPaciente === orderedDeudas[i].rutDeudor) {
-          expect(deudas[i].nombreDeudor).toBeFalsy();
-        } else {
-          expect(deudas[i].nombreDeudor).toBe(orderedDeudas[i].nombreDeudor);
-        }
-        if (deudas[i].correlativo === 1) {
-          expect(deudas[i].pagoEnProceso).toBeTruthy();
-        } else {
-          expect(deudas[i].pagoEnProceso).toBeFalsy();
-        }
-      }
+      expect(respuesta.status).toBe(200);
+
+      expect(respuesta.body.length).toBe(4);
+    });
+    it('Debería solo retornar deudas con deuda = 0 si se recibe "pagadas=true".', async () => {
+      const respuesta = await request
+        .get("/v1/deudas/paciente?pagadas=true")
+        .set("Authorization", token);
+
+      expect(respuesta.status).toBe(200);
+
+      expect(respuesta.body.length).toBe(2);
+    });
+    it('Debería retornar todas las deudas si no se recibe "pagadas" o si es diferente a "true" o "false".', async () => {
+      const respuesta = await request
+        .get("/v1/deudas/paciente?pagadas=truee")
+        .set("Authorization", token);
+
+      expect(respuesta.status).toBe(200);
+
+      expect(respuesta.body.length).toBe(6);
+    });
+    it('Debería retornar las deudas con "nombreDeudor" = "null" si "rutDeudor" = "rutPaciente".', async () => {
+      const respuesta = await request
+        .get("/v1/deudas/paciente?pagadas=truee")
+        .set("Authorization", token);
+
+      expect(respuesta.status).toBe(200);
+
+      expect(respuesta.body.length).toBe(6);
+
+      expect(respuesta.body[0].nombreDeudor).toBe("Berte Bingell");
+      expect(respuesta.body[1].nombreDeudor).toBe(null);
     });
   });
 });
