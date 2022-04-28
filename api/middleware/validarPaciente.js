@@ -1,11 +1,18 @@
-const pacientesController = require("../controllers/pacientesController");
+const pacientesService = require("../utils/pacientesService");
 const { handleError, sendCustomError } = require("../utils/errorHandler");
 const { isObjectEmpty } = require("../utils/utils");
 const { regex } = require("../utils/regexValidaciones");
 
 exports.validarPaciente = async (req, res, next) => {
   try {
-    const paciente = await pacientesController.getPaciente(
+    // durante los tests no se valida al paciente
+    if (process.env.NODE_ENV === "test") {
+      req.emailPaciente = "test";
+      next();
+      return;
+    }
+
+    const paciente = await pacientesService.getPaciente(
       req.headers.authorization
     );
 

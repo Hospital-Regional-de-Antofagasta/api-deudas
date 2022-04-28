@@ -1,4 +1,4 @@
-const { httpRequest } = require("../utils/httpRequests");
+const { httpRequest } = require("./httpRequests");
 
 const urlPacientes = process.env.API_URL;
 

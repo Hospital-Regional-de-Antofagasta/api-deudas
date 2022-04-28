@@ -28,8 +28,8 @@ beforeEach(async () => {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   });
-  await Deudas.create(deudasSeed);
-  await OrdenesFlow.create(pagosSeed);
+  await Deudas.create(deudasSeed, { validateBeforeSave: false });
+  await OrdenesFlow.create(pagosSeed, { validateBeforeSave: false });
   await ConfigApiDeudas.create(configSeed);
 });
 
@@ -42,7 +42,7 @@ afterEach(async () => {
 
 describe("Endpoints pagos", () => {
   describe("POST /v1/pagos", () => {
-    it("Should not generate payment without token", async () => {
+    it("Debería retornar error si no se recibe token.", async () => {
       const respuesta = await request.post("/v1/pagos");
 
       const mensaje = await getMensajes("forbiddenAccess");
@@ -55,7 +55,7 @@ describe("Endpoints pagos", () => {
         icono: mensaje.icono,
       });
     });
-    it("Should not generate payment with invalid token", async () => {
+    it("Debería retornar error si el token es invalido.", async () => {
       const respuesta = await request
         .post("/v1/pagos")
         .set("Authorization", "no-token");
@@ -70,7 +70,7 @@ describe("Endpoints pagos", () => {
         icono: mensaje.icono,
       });
     });
-    it("Should not generate payment with empty body", async () => {
+    it("Debería retornar error si no se envían pagos (body vacío).", async () => {
       const respuesta = await request
         .post("/v1/pagos")
         .set("Authorization", token);
@@ -85,7 +85,7 @@ describe("Endpoints pagos", () => {
         icono: mensaje.icono,
       });
     });
-    it("Should not generate payment with empty array", async () => {
+    it("Debería retornar error si no se envían pagos (arreglo vacío).", async () => {
       const respuesta = await request
         .post("/v1/pagos")
         .set("Authorization", token)
@@ -101,7 +101,7 @@ describe("Endpoints pagos", () => {
         icono: mensaje.icono,
       });
     });
-    it("Should not generate payment with empty object", async () => {
+    it("Debería retornar error si no se envían pagos (objeto vacío).", async () => {
       const respuesta = await request
         .post("/v1/pagos")
         .set("Authorization", token)
@@ -117,7 +117,7 @@ describe("Endpoints pagos", () => {
         icono: mensaje.icono,
       });
     });
-    it("Should not generate payment with empty payment", async () => {
+    it("Debería retornar error si no se envían pagos (algún pago vacío).", async () => {
       const respuesta = await request
         .post("/v1/pagos")
         .set("Authorization", token)
@@ -133,11 +133,17 @@ describe("Endpoints pagos", () => {
         icono: mensaje.icono,
       });
     });
-    it("Should not generate payment with payment without idDeuda", async () => {
+    it('Debería retornar error si no se envía un "identificadorDeuda".', async () => {
       const respuesta = await request
         .post("/v1/pagos")
         .set("Authorization", token)
-        .send([{ abono: 1000 }]);
+        .send([
+          {
+            tipoDeuda: "PAGARE",
+            codigoEstablecimientoDeuda: "HRA",
+            abono: 3000,
+          },
+        ]);
 
       const mensaje = await getMensajes("badRequest");
 
@@ -149,11 +155,17 @@ describe("Endpoints pagos", () => {
         icono: mensaje.icono,
       });
     });
-    it("Should not generate payment with payment without abono", async () => {
+    it('Debería retornar error si no se envía un "tipoDeuda".', async () => {
       const respuesta = await request
         .post("/v1/pagos")
         .set("Authorization", token)
-        .send([{ idDeuda: "000000000001" }]);
+        .send([
+          {
+            identificadorDeuda: "651456027",
+            codigoEstablecimientoDeuda: "HRA",
+            abono: 3000,
+          },
+        ]);
 
       const mensaje = await getMensajes("badRequest");
 
@@ -165,43 +177,17 @@ describe("Endpoints pagos", () => {
         icono: mensaje.icono,
       });
     });
-    it("Should not generate payment with payment without deuda", async () => {
+    it('Debería retornar error si no se envía un "codigoEstablecimiento".', async () => {
       const respuesta = await request
         .post("/v1/pagos")
         .set("Authorization", token)
-        .send([{ idDeuda: "000000000099", abono: 1000 }]);
-
-      const mensaje = await getMensajes("deudaNoEncontrada");
-
-      expect(respuesta.status).toBe(400);
-      expect(respuesta.body.respuesta).toEqual({
-        titulo: mensaje.titulo,
-        mensaje: mensaje.mensaje,
-        color: mensaje.color,
-        icono: mensaje.icono,
-      });
-    });
-    // it("Should not generate payment with payment with deuda with pending payment", async () => {
-    //   const respuesta = await request
-    //     .post("/v1/pagos")
-    //     .set("Authorization", token)
-    //     .send([{ idDeuda: "000000000001", abono: 1000 }]);
-
-    //   const mensaje = await getMensajes("pagoPendiente");
-
-    //   expect(respuesta.status).toBe(400);
-    //   expect(respuesta.body.respuesta).toEqual({
-    //     titulo: mensaje.titulo,
-    //     mensaje: mensaje.mensaje,
-    //     color: mensaje.color,
-    //     icono: mensaje.icono,
-    //   });
-    // });
-    it("Should not generate payment with payment with deuda with abono > deuda", async () => {
-      const respuesta = await request
-        .post("/v1/pagos")
-        .set("Authorization", token)
-        .send([{ idDeuda: "000000000002", abono: 1000 }]);
+        .send([
+          {
+            identificadorDeuda: "651456027",
+            tipoDeuda: "PAGARE",
+            abono: 3000,
+          },
+        ]);
 
       const mensaje = await getMensajes("badRequest");
 
@@ -213,11 +199,109 @@ describe("Endpoints pagos", () => {
         icono: mensaje.icono,
       });
     });
-    it("Should not generate payment with payment with deuda with abono < $350", async () => {
+    it('Debería retornar error si no se envía un "abono".', async () => {
       const respuesta = await request
         .post("/v1/pagos")
         .set("Authorization", token)
-        .send([{ idDeuda: "000000000002", abono: 100 }]);
+        .send([
+          {
+            identificadorDeuda: "651456027",
+            tipoDeuda: "PAGARE",
+            codigoEstablecimientoDeuda: "HRA",
+          },
+        ]);
+
+      const mensaje = await getMensajes("badRequest");
+
+      expect(respuesta.status).toBe(400);
+      expect(respuesta.body.respuesta).toEqual({
+        titulo: mensaje.titulo,
+        mensaje: mensaje.mensaje,
+        color: mensaje.color,
+        icono: mensaje.icono,
+      });
+    });
+    it("Debería retornar error si no existe una deuda para ese pago.", async () => {
+      const respuesta = await request
+        .post("/v1/pagos")
+        .set("Authorization", token)
+        .send([
+          {
+            identificadorDeuda: "651456028",
+            tipoDeuda: "PAGARE",
+            codigoEstablecimientoDeuda: "HRA",
+            abono: 3000,
+          },
+        ]);
+
+      const mensaje = await getMensajes("badRequest");
+
+      expect(respuesta.status).toBe(400);
+      expect(respuesta.body.respuesta).toEqual({
+        titulo: mensaje.titulo,
+        mensaje: mensaje.mensaje,
+        color: mensaje.color,
+        icono: mensaje.icono,
+      });
+    });
+    it("Debería retornar error si el monto abonado es mayor a la deuda.", async () => {
+      const respuesta = await request
+        .post("/v1/pagos")
+        .set("Authorization", token)
+        .send([
+          {
+            identificadorDeuda: "651456027",
+            tipoDeuda: "PAGARE",
+            codigoEstablecimientoDeuda: "HRA",
+            abono: 7000,
+          },
+        ]);
+
+      const mensaje = await getMensajes("badRequest");
+
+      expect(respuesta.status).toBe(400);
+      expect(respuesta.body.respuesta).toEqual({
+        titulo: mensaje.titulo,
+        mensaje: mensaje.mensaje,
+        color: mensaje.color,
+        icono: mensaje.icono,
+      });
+    });
+    it("Debería retornar error si el monto abonado es mayor a $999999999.", async () => {
+      const respuesta = await request
+        .post("/v1/pagos")
+        .set("Authorization", token)
+        .send([
+          {
+            identificadorDeuda: "651456027",
+            tipoDeuda: "PAGARE",
+            codigoEstablecimientoDeuda: "HRA",
+            abono: 1000000000,
+          },
+        ]);
+
+      const mensaje = await getMensajes("badRequest");
+
+      expect(respuesta.status).toBe(400);
+      expect(respuesta.body.respuesta).toEqual({
+        titulo: mensaje.titulo,
+        mensaje: mensaje.mensaje,
+        color: mensaje.color,
+        icono: mensaje.icono,
+      });
+    });
+    it("Debería retornar error si el monto abonado es menor a $350.", async () => {
+      const respuesta = await request
+        .post("/v1/pagos")
+        .set("Authorization", token)
+        .send([
+          {
+            identificadorDeuda: "651456027",
+            tipoDeuda: "PAGARE",
+            codigoEstablecimientoDeuda: "HRA",
+            abono: 300,
+          },
+        ]);
 
       const mensaje = await getMensajes("badRequest");
 

@@ -2,14 +2,8 @@ const express = require("express");
 const flowController = require("../controllers/flowController");
 const pagosController = require("../controllers/pagosController");
 const isAuthenticated = require("../middleware/auth");
-const {
-  validarPagos,
-  validarExisteDeuda,
-  validarMonto,
-  validarDeudaNoTengaPagoPendiente,
-} = require("../middleware/validarPagos");
-const { validarPaciente } = require("../middleware/validarPaciente");
 const { validarToken } = require("../middleware/validarFlow");
+const { validarPaciente } = require("../middleware/validarPaciente");
 
 const router = express.Router();
 
@@ -27,15 +21,10 @@ router.post(
   flowController.flowReturn
 );
 
-router.post(
-  "/",
-  isAuthenticated,
-  validarPagos,
-  validarExisteDeuda,
-  // validarDeudaNoTengaPagoPendiente,
-  validarMonto,
-  validarPaciente,
-  pagosController.crear
-);
+router.post("/", isAuthenticated, validarPaciente, pagosController.crear);
+
+// solo testing
+// router.get("/flow-order/status/:token", flowController.getTestPaymentStatus);
+// router.delete("/flow-order", flowController.cancelTestPayment);
 
 module.exports = router;
