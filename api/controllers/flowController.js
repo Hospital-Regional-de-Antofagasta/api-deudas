@@ -10,6 +10,38 @@ const flowHosting = process.env.FLOW_HOSTING;
 
 const flowConfirmation = async (req, res) => {
   try {
+    const { token } = req.body;
+
+    const flowOrder = await OrdenesFlow.findOne({ token }).exec();
+
+    let estado;
+
+    if (!["EN_PROCESO", "ERROR_FLOW"].includes(flowOrder?.estado))
+      return res.sendStatus(200);
+
+    const paymentStatus = await getPaymentStatus({ token });
+
+    if (!paymentStatus.flowOrder) {
+      await OrdenesFlow.updateOne({ token }, { estado: "ERROR_FLOW" }).exec();
+      return res.sendStatus(200);
+    }
+
+    switch (paymentStatus.status) {
+      case 1:
+        estado = "ERROR_FLOW";
+        break;
+      case 2:
+        estado = "PAGADA";
+        break;
+      case 3:
+        estado = "RECHAZADA";
+        break;
+      case 4:
+        estado = "ANULADA";
+        break;
+    }
+    await OrdenesFlow.updateOne({ token }, { estado }).exec();
+
     res.sendStatus(200);
   } catch (error) {
     await handleError(res, error);
