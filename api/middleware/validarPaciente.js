@@ -26,7 +26,7 @@ exports.validarPaciente = async (req, res, next) => {
 
     // retornar error de consulta
     if (!paciente.nombre)
-      return await sendCustomError(res, 500, "errorPaciente", paciente);
+      return await sendCustomError(res, 400, "errorPaciente", paciente);
 
     if (!paciente.datosContactoActualizados)
       return await sendCustomError(

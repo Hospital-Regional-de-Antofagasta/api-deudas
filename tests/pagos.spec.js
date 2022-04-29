@@ -315,7 +315,7 @@ describe("Endpoints pagos", () => {
     });
   });
   describe("POST /v1/pagos/flow-confirmation", () => {
-    it("Should not access confirmation without token", async () => {
+    it("Debería retornar error si no se recibe token.", async () => {
       const respuesta = await request.post("/v1/pagos/flow-confirmation");
 
       const mensaje = await getMensajes("forbiddenAccess");
@@ -328,7 +328,7 @@ describe("Endpoints pagos", () => {
         icono: mensaje.icono,
       });
     });
-    it("Should not access confirmation with invalid token", async () => {
+    it("Debería retornar error si el token es invalido.", async () => {
       const respuesta = await request
         .post("/v1/pagos/flow-confirmation")
         .send({ token: "token" });
@@ -345,7 +345,7 @@ describe("Endpoints pagos", () => {
     });
   });
   describe("POST /v1/pagos/flow-return", () => {
-    it("Should not access confirmation without token", async () => {
+    it("Debería retornar error si no se recibe token.", async () => {
       const respuesta = await request.post("/v1/pagos/flow-return");
 
       const mensaje = await getMensajes("forbiddenAccess");
@@ -358,7 +358,7 @@ describe("Endpoints pagos", () => {
         icono: mensaje.icono,
       });
     });
-    it("Should not access return with invalid token", async () => {
+    it("Debería retornar error si el token es invalido.", async () => {
       const respuesta = await request
         .post("/v1/pagos/flow-return")
         .send({ token: "token" });

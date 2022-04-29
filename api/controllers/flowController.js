@@ -20,28 +20,38 @@ const flowReturn = async (req, res) => {
   try {
     const { token } = req.body;
 
-    const paymentStatus = await getPaymentStatus({ token });
-
-    if (!paymentStatus.flowOrder) {
-      await OrdenesFlow.updateOne({ token }, { estado: "ERROR_FLOW" }).exec();
-      return await sendCustomError(res, 500, "flowError", paymentStatus);
-    }
+    const flowOrder = await OrdenesFlow.findOne({ token }).exec();
 
     let estado;
     let respuesta;
 
+    if (!["EN_PROCESO", "ERROR_FLOW"].includes(flowOrder?.estado)) {
+      switch (flowOrder.estado) {
+        case "PAGADA":
+          respuesta = await getMensajes("pagoRealizado");
+          break;
+        case "RECHAZADA":
+          respuesta = await getMensajes("pagoRechazado");
+          break;
+        case "ANULADA":
+          respuesta = await getMensajes("pagoAnulado");
+          break;
+      }
+      estado = flowOrder.estado;
+      return res.status(200).send({ estado, respuesta });
+    }
+
+    const paymentStatus = await getPaymentStatus({ token });
+
+    if (!paymentStatus.flowOrder) {
+      await OrdenesFlow.updateOne({ token }, { estado: "ERROR_FLOW" }).exec();
+      return await sendCustomError(res, 200, "flowError", paymentStatus);
+    }
+
     switch (paymentStatus.status) {
       case 1:
-        const canceledOrder = await cancelPaymentOrder({ token });
-        if (!canceledOrder.flowOrder) {
-          await OrdenesFlow.updateOne(
-            { token },
-            { estado: "ERROR_FLOW" }
-          ).exec();
-          return await sendCustomError(res, 500, "flowError", canceledOrder);
-        }
-        estado = "ANULADA";
-        respuesta = await getMensajes("pagoAnulado");
+        estado = "ERROR_FLOW";
+        respuesta = await getMensajes("flowError");
         break;
       case 2:
         estado = "PAGADA";
@@ -91,14 +101,14 @@ const createFlowPayment = async (params) => {
   return respuesta.data;
 };
 
-const getTestPaymentStatus = async (req, res) => {
-  if (process.env.NODE_ENV !== "dev") return res.sendStatus("401");
-  const token = req.params.token;
+// const getTestPaymentStatus = async (req, res) => {
+//   if (process.env.NODE_ENV !== "dev") return res.sendStatus("401");
+//   const token = req.params.token;
 
-  const status = await getPaymentStatus({token});
+//   const status = await getPaymentStatus({token});
 
-  res.status(200).send(status);
-};
+//   res.status(200).send(status);
+// };
 
 const getPaymentStatus = async (params) => {
   params = await signParameters(params);
@@ -118,14 +128,14 @@ const getPaymentStatus = async (params) => {
   return respuesta.data;
 };
 
-const cancelTestPayment = async (req, res) => {
-  if (process.env.NODE_ENV !== "dev") return res.sendStatus("401");
-  const token = req.body.token;
+// const cancelTestPayment = async (req, res) => {
+//   if (process.env.NODE_ENV !== "dev") return res.sendStatus("401");
+//   const token = req.body.token;
 
-  const status = await cancelPaymentOrder({token});
+//   const status = await cancelPaymentOrder({token});
 
-  res.status(200).send(status);
-};
+//   res.status(200).send(status);
+// };
 
 const cancelPaymentOrder = async (params) => {
   params = await signParameters(params);
@@ -179,6 +189,6 @@ module.exports = {
   flowReturn,
   createFlowPayment,
   cancelPaymentOrder,
-  getTestPaymentStatus,
-  cancelTestPayment,
+  // getTestPaymentStatus,
+  // cancelTestPayment,
 };

@@ -27,7 +27,12 @@ const crear = async (req, res) => {
       ordenFlow?.pagos
     );
     if (cancelacionFallida)
-      return await sendCustomError(res, 200, "flowUnavailable", cancelacionFallida);
+      return await sendCustomError(
+        res,
+        200,
+        "flowUnavailable",
+        cancelacionFallida
+      );
 
     // El Model.validate(obj) no entrega todos los mensajes de error
     await OrdenesFlow.validate(ordenFlow);
@@ -87,9 +92,7 @@ const cancelarOrdenesPagosPendientes = async (pagos) => {
       "pagos.identificadorDeuda": pago.identificadorDeuda,
       "pagos.tipoDeuda": pago.tipoDeuda,
       "pagos.codigoEstablecimientoDeuda": pago.codigoEstablecimientoDeuda,
-      estado: {
-        $in: ["EN_PROCESO"],
-      },
+      estado: { $in: ["EN_PROCESO"] },
     }).exec();
     for (let pagoEnProceso of pagosEnProceso) {
       if (pagoEnProceso) {
