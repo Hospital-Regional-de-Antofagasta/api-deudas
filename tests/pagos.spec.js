@@ -29,13 +29,13 @@ beforeEach(async () => {
     useUnifiedTopology: true,
   });
   await Deudas.create(deudasSeed, { validateBeforeSave: false });
-  await OrdenesFlow.create(pagosSeed, { validateBeforeSave: false });
+  // await OrdenesFlow.create(pagosSeed, { validateBeforeSave: false });
   await ConfigApiDeudas.create(configSeed);
 });
 
 afterEach(async () => {
   await Deudas.deleteMany();
-  await OrdenesFlow.deleteMany();
+  // await OrdenesFlow.deleteMany();
   await ConfigApiDeudas.deleteMany();
   await mongoose.connection.close();
 });
