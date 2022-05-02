@@ -133,14 +133,14 @@ const createFlowPayment = async (params) => {
   return respuesta.data;
 };
 
-// const getTestPaymentStatus = async (req, res) => {
-//   if (process.env.NODE_ENV !== "dev") return res.sendStatus("401");
-//   const token = req.params.token;
+const getTestPaymentStatus = async (req, res) => {
+  if (process.env.NODE_ENV !== "dev") return res.sendStatus("401");
+  const token = req.params.token;
 
-//   const status = await getPaymentStatus({token});
+  const status = await getPaymentStatus({token});
 
-//   res.status(200).send(status);
-// };
+  res.status(200).send(status);
+};
 
 const getPaymentStatus = async (params) => {
   params = await signParameters(params);
@@ -149,7 +149,7 @@ const getPaymentStatus = async (params) => {
 
   const respuesta = await httpRequest(
     "GET",
-    `${flowHosting}/api/payment/getStatus`,
+    `${flowHosting}/api/payment/getStatuss`,
     null,
     config,
     10
@@ -160,14 +160,14 @@ const getPaymentStatus = async (params) => {
   return respuesta.data;
 };
 
-// const cancelTestPayment = async (req, res) => {
-//   if (process.env.NODE_ENV !== "dev") return res.sendStatus("401");
-//   const token = req.body.token;
+const cancelTestPayment = async (req, res) => {
+  if (process.env.NODE_ENV !== "dev") return res.sendStatus("401");
+  const token = req.body.token;
 
-//   const status = await cancelPaymentOrder({token});
+  const status = await cancelPaymentOrder({token});
 
-//   res.status(200).send(status);
-// };
+  res.status(200).send(status);
+};
 
 const cancelPaymentOrder = async (params) => {
   params = await signParameters(params);
@@ -221,6 +221,6 @@ module.exports = {
   flowReturn,
   createFlowPayment,
   cancelPaymentOrder,
-  // getTestPaymentStatus,
-  // cancelTestPayment,
+  getTestPaymentStatus,
+  cancelTestPayment,
 };
