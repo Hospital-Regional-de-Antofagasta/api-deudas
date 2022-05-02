@@ -33,6 +33,7 @@
             PORT: "3000"
             HOST_NAME: "localhost"
             JWT_SECRET: "TEST"
+            NODE_ENV: "test"
           run: |
             chmod +x ./gradlew
             ./gradlew helmInstallApiDeudasToCloud
