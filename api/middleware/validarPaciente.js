@@ -6,7 +6,6 @@ const { regex } = require("../utils/regexValidaciones");
 exports.validarPaciente = async (req, res, next) => {
   try {
     // durante los tests no se valida al paciente
-    console.log("process.env.NODE_ENV", process.env.NODE_ENV)
     if (process.env.NODE_ENV === "test") {
       req.emailPaciente = "test";
       next();
