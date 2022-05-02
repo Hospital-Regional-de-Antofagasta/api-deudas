@@ -24,7 +24,7 @@ router.post(
 router.post("/", isAuthenticated, validarPaciente, pagosController.crear);
 
 // solo testing
-router.get("/flow-order/status/:token", flowController.getTestPaymentStatus);
-router.delete("/flow-order", flowController.cancelTestPayment);
+// router.get("/flow-order/status/:token", flowController.getTestPaymentStatus);
+// router.delete("/flow-order", flowController.cancelTestPayment);
 
 module.exports = router;
