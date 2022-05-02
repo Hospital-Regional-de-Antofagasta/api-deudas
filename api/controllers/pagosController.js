@@ -40,6 +40,8 @@ const crear = async (req, res) => {
     const { subject, currency, paymentMethod, timeout, payment_currency } =
       await getParametrosFlow();
 
+    console.log("urlConfirmation", `${baseUrl}/v1/pagos/flow-confirmation`)
+
     const params = {
       amount: calcularMonto(ordenFlow.pagos),
       commerceOrder: ordenFlow.commerceOrder,
