@@ -7,8 +7,6 @@ const ConfigApiDeudas = require("../api/models/ConfigApiDeudas");
 const configSeed = require("./testSeeds/configSeed.json");
 const Deudas = require("../api/models/Deudas");
 const deudasSeed = require("./testSeeds/deudasSeed.json");
-const OrdenesFlow = require("../api/models/OrdenesFlow");
-const pagosSeed = require("./testSeeds/pagosSeed.json");
 
 const request = supertest(app);
 
@@ -29,13 +27,11 @@ beforeEach(async () => {
     useUnifiedTopology: true,
   });
   await Deudas.create(deudasSeed, { validateBeforeSave: false });
-  // await OrdenesFlow.create(pagosSeed, { validateBeforeSave: false });
   await ConfigApiDeudas.create(configSeed);
 });
 
 afterEach(async () => {
   await Deudas.deleteMany();
-  // await OrdenesFlow.deleteMany();
   await ConfigApiDeudas.deleteMany();
   await mongoose.connection.close();
 });
@@ -300,6 +296,35 @@ describe("Endpoints pagos", () => {
             tipoDeuda: "PAGARE",
             codigoEstablecimientoDeuda: "HRA",
             abono: 300,
+          },
+        ]);
+
+      const mensaje = await getMensajes("badRequest");
+
+      expect(respuesta.status).toBe(400);
+      expect(respuesta.body.respuesta).toEqual({
+        titulo: mensaje.titulo,
+        mensaje: mensaje.mensaje,
+        color: mensaje.color,
+        icono: mensaje.icono,
+      });
+    });
+    it("Debería retornar error si se recibe mas de un pago para la misma deuda.", async () => {
+      const respuesta = await request
+        .post("/v1/pagos")
+        .set("Authorization", token)
+        .send([
+          {
+            identificadorDeuda: "651456027",
+            tipoDeuda: "PAGARE",
+            codigoEstablecimientoDeuda: "HRA",
+            abono: 3000,
+          },
+          {
+            identificadorDeuda: "651456027",
+            tipoDeuda: "PAGARE",
+            codigoEstablecimientoDeuda: "HRA",
+            abono: 3000,
           },
         ]);
 

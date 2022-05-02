@@ -67,6 +67,21 @@ const validarDeudaDisponibleParaPago = async (pagos) => {
   }
 };
 
+const validarDeudasDiferentes = async (pagos) => {
+  for (let pago of pagos) {
+    if (
+      pagos.filter(
+        (e) =>
+          e.identificadorDeuda === pago.identificadorDeuda &&
+          e.tipoDeuda === pago.tipoDeuda &&
+          e.codigoEstablecimiento === pago.codigoEstablecimiento
+      )
+    )
+      return false;
+  }
+  return true;
+};
+
 const OrdenesFlow = mongoose.model(
   "ordenes_flow",
   new Schema(
@@ -142,6 +157,11 @@ const OrdenesFlow = mongoose.model(
           {
             validator: validarDeudaDisponibleParaPago,
             message: "La deuda tiene un pago en validación.",
+          },
+          {
+            validator: validarDeudasDiferentes,
+            message:
+              "No se puede realizar dos o mas pagos a la misma deuda en la misma consulta.",
           },
         ],
       },
