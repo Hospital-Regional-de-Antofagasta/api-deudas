@@ -40,6 +40,15 @@ const crear = async (req, res) => {
     const { subject, currency, paymentMethod, timeout, payment_currency } =
       await getParametrosFlow();
 
+    const optional = {};
+    let contPagos = 0;
+    for (let pago of ordenFlow.pagos) {
+      optional[
+        contPagos
+      ] = `${pago.identificadorDeuda};${pago.tipoDeuda};${pago.codigoEstablecimientoDeuda};${pago.abono}`;
+      contPagos++;
+    }
+
     const params = {
       amount: calcularMonto(ordenFlow.pagos),
       commerceOrder: ordenFlow.commerceOrder,
@@ -49,7 +58,7 @@ const crear = async (req, res) => {
       paymentMethod,
       urlConfirmation: `${baseUrl}/v1/pagos/flow-confirmation`,
       urlReturn: `${baseUrl}/v1/pagos/flow-return`,
-      optional: ordenFlow.pagos,
+      optional: JSON.stringify(optional),
       timeout,
       payment_currency,
     };
