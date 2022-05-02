@@ -14,7 +14,7 @@
         API_CLUSTER: ${{ secrets.GCP_CLUSTER_PROD }}
         API_KEY: ${{ secrets.API_KEY_PROD }}
         MONGO_IP: ${{ secrets.MONGO_IP_PROD }}
-        NODE_ENV: "prod"
+        ENV: "prod"
         BASE_URL: ${{ secrets.API_URL_PROD }}
         API_URL: ${{ secrets.API_URL_PROD }}
         FLOW_API_KEY: ${{ secrets.FLOW_API_KEY_PROD }}
@@ -33,7 +33,6 @@
             PORT: "3000"
             HOST_NAME: "localhost"
             JWT_SECRET: "TEST"
-            NODE_ENV: "test"
           run: |
             chmod +x ./gradlew
             ./gradlew helmInstallApiDeudasToCloud

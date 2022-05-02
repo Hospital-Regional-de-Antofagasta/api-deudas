@@ -15,7 +15,7 @@
         API_CLUSTER: ${{ secrets.GCP_CLUSTER_QA }}
         API_KEY: ${{ secrets.API_KEY_QA }}
         MONGO_IP: ${{ secrets.MONGO_IP_QA }}
-        NODE_ENV: "dev"
+        ENV: "dev"
         BASE_URL: ${{ secrets.API_URL_QA }}
         API_URL: ${{ secrets.API_URL_QA }}
         FLOW_API_KEY: ${{ secrets.FLOW_API_KEY_QA }}
@@ -34,7 +34,6 @@
             PORT: "3000"
             HOST_NAME: "localhost"
             JWT_SECRET: "TEST"
-            NODE_ENV: "test"
           run: |
             chmod +x ./gradlew
             ./gradlew helmInstallToCloud
