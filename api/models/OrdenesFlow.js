@@ -75,7 +75,7 @@ const validarDeudasDiferentes = async (pagos) => {
           e.identificadorDeuda === pago.identificadorDeuda &&
           e.tipoDeuda === pago.tipoDeuda &&
           e.codigoEstablecimiento === pago.codigoEstablecimiento
-      )
+      ).length > 1
     )
       return false;
   }
