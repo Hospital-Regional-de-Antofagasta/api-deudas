@@ -29,7 +29,7 @@ const crear = async (req, res) => {
     if (cancelacionFallida)
       return await sendCustomError(
         res,
-        200,
+        500,
         "flowUnavailable",
         cancelacionFallida
       );
@@ -66,12 +66,12 @@ const crear = async (req, res) => {
     const flowPayment = await flowController.createFlowPayment(params);
 
     if (!flowPayment)
-      return await sendCustomError(res, 200, "flowUnavailable", flowPayment);
+      return await sendCustomError(res, 500, "flowUnavailable", flowPayment);
 
     const { token, url, flowOrder } = flowPayment;
 
     if (!token || !url || !flowOrder)
-      return await sendCustomError(res, 200, "flowUnavailable", flowPayment);
+      return await sendCustomError(res, 500, "flowUnavailable", flowPayment);
 
     ordenFlow.token = token;
     ordenFlow.flowOrder = flowOrder;

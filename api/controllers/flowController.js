@@ -77,7 +77,7 @@ const flowReturn = async (req, res) => {
 
     if (!paymentStatus.flowOrder) {
       await OrdenesFlow.updateOne({ token }, { estado: "ERROR_FLOW" }).exec();
-      return await sendCustomError(res, 200, "flowError", paymentStatus);
+      return await sendCustomError(res, 500, "flowError", paymentStatus);
     }
 
     switch (paymentStatus.status) {
