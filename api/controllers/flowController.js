@@ -28,7 +28,7 @@ const flowConfirmation = async (req, res) => {
 
     switch (paymentStatus.status) {
       case 1:
-        estado = "ERROR_FLOW";
+        estado = "EN_PROCESO";
         break;
       case 2:
         estado = "PAGADA";
@@ -82,8 +82,8 @@ const flowReturn = async (req, res) => {
 
     switch (paymentStatus.status) {
       case 1:
-        estado = "ERROR_FLOW";
-        respuesta = await getMensajes("flowError");
+        estado = "EN_PROCESO";
+        respuesta = null;
         break;
       case 2:
         estado = "PAGADA";
