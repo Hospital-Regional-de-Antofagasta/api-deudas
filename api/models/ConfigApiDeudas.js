@@ -104,7 +104,8 @@ const ConfigApiDeudas = mongoose.model(
       payment_currency: String,
     },
     version: Number,
-  })
+  },
+  { timestamps: true })
 );
 
 module.exports = ConfigApiDeudas;
