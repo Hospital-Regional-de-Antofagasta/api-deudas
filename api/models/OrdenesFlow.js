@@ -68,14 +68,7 @@ const validarDeudaDisponibleParaPago = async (pagos) => {
 };
 
 const validarDeudasDiferentes = async (pagos) => {
-  console.log("validarDeudasDiferentes");
-  console.log("pagos.length", pagos.length);
-  console.log("pagos", pagos);
   for (let pago of pagos) {
-    console.log("pago", pago);
-    console.log("pago.identificadorDeuda", pago.identificadorDeuda);
-    console.log("pago.tipoDeuda", pago.tipoDeuda);
-    console.log("pago.codigoEstablecimiento", pago.codigoEstablecimiento);
     if (
       pagos.filter(
         (e) =>
