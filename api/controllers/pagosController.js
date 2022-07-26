@@ -71,9 +71,10 @@ const crear = async (req, res) => {
     const { token, url, flowOrder } = flowPayment;
 
     if (!token || !url || !flowOrder) {
-      const { mensaje } = flowPayment;
+      console.log(flowPayment)
+      const { message } = flowPayment;
       if (
-        mensaje.includes("status: 400  - code: 1620 - message: The userEmail:")
+        message.includes("status: 400  - code: 1620 - message: The userEmail:")
       )
         return res
           .status(200)
