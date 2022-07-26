@@ -76,7 +76,7 @@ const crear = async (req, res) => {
         message.includes("status: 400  - code: 1620 - message: The userEmail:")
       )
         return res
-          .status(200)
+          .status(400)
           .send({ respuesta: await getMensajes("fakeEmail") });
       return await sendCustomError(res, 500, "flowUnavailable", flowPayment);
     }
