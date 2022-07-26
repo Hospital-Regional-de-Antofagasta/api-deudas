@@ -96,11 +96,10 @@ const ConfigApiDeudas = mongoose.model(
         icono: String,
       },
       fakeEmail: {
-        subject: String,
-        currency: String,
-        paymentMethod: Number,
-        timeout: Number,
-        payment_currency: String,
+        titulo: String,
+        mensaje: String,
+        color: String,
+        icono: String,
       },
     },
     parametrosFlow: {

@@ -70,7 +70,6 @@ const crear = async (req, res) => {
 
     const { token, url, flowOrder } = flowPayment;
 
-    console.log(flowPayment)
     if (!token || !url || !flowOrder) {
       const { message } = flowPayment;
       if (
