@@ -1,7 +1,7 @@
 const { v4: uuidv4 } = require("uuid");
 const OrdenesFlow = require("../models/OrdenesFlow");
 const flowController = require("../controllers/flowController");
-const { getParametrosFlow } = require("../config");
+const { getParametrosFlow, getMensajes } = require("../config");
 const { handleError, sendCustomError } = require("../utils/errorHandler");
 const { isObjectEmpty } = require("../utils/utils");
 
@@ -70,8 +70,16 @@ const crear = async (req, res) => {
 
     const { token, url, flowOrder } = flowPayment;
 
-    if (!token || !url || !flowOrder)
+    if (!token || !url || !flowOrder) {
+      const { message } = flowPayment;
+      if (
+        message.includes("status: 400  - code: 1620 - message: The userEmail:")
+      )
+        return res
+          .status(400)
+          .send({ respuesta: await getMensajes("fakeEmail") });
       return await sendCustomError(res, 500, "flowUnavailable", flowPayment);
+    }
 
     ordenFlow.token = token;
     ordenFlow.flowOrder = flowOrder;

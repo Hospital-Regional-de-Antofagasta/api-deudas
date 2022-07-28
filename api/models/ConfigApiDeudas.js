@@ -95,6 +95,12 @@ const ConfigApiDeudas = mongoose.model(
         color: String,
         icono: String,
       },
+      fakeEmail: {
+        titulo: String,
+        mensaje: String,
+        color: String,
+        icono: String,
+      },
     },
     parametrosFlow: {
       subject: String,

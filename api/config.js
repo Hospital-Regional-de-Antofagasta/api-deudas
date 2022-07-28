@@ -72,15 +72,13 @@ const mensajesPorDefecto = {
   },
   pagoAnulado: {
     titulo: "Pago anulado",
-    mensaje:
-      "No se pudo realizar el pago.",
+    mensaje: "No se pudo realizar el pago.",
     color: "",
     icono: "",
   },
   pagoRechazado: {
     titulo: "Pago anulado",
-    mensaje:
-      "No se pudo realizar el pago.",
+    mensaje: "No se pudo realizar el pago.",
     color: "",
     icono: "",
   },
@@ -93,8 +91,13 @@ const mensajesPorDefecto = {
   },
   errorPaciente: {
     titulo: "Problema de conexión a la api de pacientes",
-    mensaje:
-      "No se pudo obtener el paciente.",
+    mensaje: "No se pudo obtener el paciente.",
+    color: "",
+    icono: "",
+  },
+  fakeEmail: {
+    titulo: "Problema de conexión al medio de pago",
+    mensaje: "Su correo fue rechazado por Flow.",
     color: "",
     icono: "",
   },
@@ -119,7 +122,8 @@ exports.getParametrosFlow = async () => {
     version: 1,
   }).exec();
 
-  if (!parametrosFlow?.subject) parametrosFlow.subject = "Pago prestación hospitalaria.";
+  if (!parametrosFlow?.subject)
+    parametrosFlow.subject = "Pago prestación hospitalaria.";
   if (!parametrosFlow?.currency) parametrosFlow.currency = "CLP";
   if (!parametrosFlow?.paymentMethod) parametrosFlow.paymentMethod = 1;
   if (!parametrosFlow?.timeout) parametrosFlow.timeout = 120;

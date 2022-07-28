@@ -90,6 +90,12 @@
         "mensaje": "No se pudo obtener el paciente. -test",
         "color": " -test",
         "icono": " -test"
+      },
+      "fakeEmail": {
+        "titulo": "Problema de conexión al medio de pago -test",
+        "mensaje": "Su correo fue rechazado por Flow. -test",
+        "color": " -test",
+        "icono": " -test"
       }
     },
     "parametrosFlow": {
