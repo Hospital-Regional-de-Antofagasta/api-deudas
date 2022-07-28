@@ -1,0 +1,20 @@
+[
+  {
+    "flowOrder": "2349082",
+    "token": "8hfg6h87hj5h9df79g7dh6",
+    "commerceOrder": "198347298734",
+    "rutPaciente": "11111111-1",
+    "emailPagador": "mail@mail.com",
+    "rutPagador": "11111111-1",
+    "estado": "PAGADA",
+    "registradoEnEstablecimiento": false,
+    "pagos": [
+      {
+        "identificadorDeuda": "651456027",
+        "tipoDeuda": "PAGARE",
+        "codigoEstablecimientoDeuda": "HRA",
+        "abono": 3000
+      }
+    ]
+  }
+]

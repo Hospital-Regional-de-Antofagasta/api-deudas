@@ -13,15 +13,15 @@
     "babel-build": "./node_modules/.bin/babel . -d dist --ignore node_modules,tests,.vscode,./dist",
     "babel-dev": "nodemon --exec babel-node ./server.js",
     "clean": "rimraf ./build",
-    "test": "cross-env MONGO_URI=mongodb://localhost:27017 jest",
+    "test": "cross-env MONGO_URI=mongodb://localhost:27017 jest --runInBand",
     "test --watch": "jest --watch"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Hospital-Regional-de-Antofagasta/api-deudas.git"
   },
-  "author": "",
-  "license": "ISC",
+  "author": "Pablo Fontecilla Busch",
+  "license": "GPL-3.0",
   "bugs": {
     "url": "https://github.com/Hospital-Regional-de-Antofagasta/api-deudas/issues"
   },
@@ -35,9 +35,12 @@
     "supertest": "^6.2.2"
   },
   "dependencies": {
+    "axios": "^0.25.0",
     "cors": "^2.8.5",
+    "crypto-js": "^4.1.1",
     "express": "^4.17.2",
     "jsonwebtoken": "^8.5.1",
-    "mongoose": "^6.2.0"
+    "mongoose": "^6.2.0",
+    "uuid": "^8.3.2"
   }
 }

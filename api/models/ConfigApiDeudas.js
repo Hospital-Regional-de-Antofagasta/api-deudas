@@ -23,9 +23,95 @@ const ConfigApiDeudas = mongoose.model(
         color: String,
         icono: String,
       },
+      deudaNoEncontrada: {
+        titulo: String,
+        mensaje: String,
+        color: String,
+        icono: String,
+      },
+      pagoPendiente: {
+        titulo: String,
+        mensaje: String,
+        color: String,
+        icono: String,
+      },
+      pacienteNoEncontrado: {
+        titulo: String,
+        mensaje: String,
+        color: String,
+        icono: String,
+      },
+      datosContactoNoConfirmados: {
+        titulo: String,
+        mensaje: String,
+        color: String,
+        icono: String,
+      },
+      emailNoEncontrado: {
+        titulo: String,
+        mensaje: String,
+        color: String,
+        icono: String,
+      },
+      emailNoValido: {
+        titulo: String,
+        mensaje: String,
+        color: String,
+        icono: String,
+      },
+      flowUnavailable: {
+        titulo: String,
+        mensaje: String,
+        color: String,
+        icono: String,
+      },
+      pagoRealizado: {
+        titulo: String,
+        mensaje: String,
+        color: String,
+        icono: String,
+      },
+      pagoAnulado: {
+        titulo: String,
+        mensaje: String,
+        color: String,
+        icono: String,
+      },
+      pagoRechazado: {
+        titulo: String,
+        mensaje: String,
+        color: String,
+        icono: String,
+      },
+      flowError: {
+        titulo: String,
+        mensaje: String,
+        color: String,
+        icono: String,
+      },
+      errorPaciente: {
+        titulo: String,
+        mensaje: String,
+        color: String,
+        icono: String,
+      },
+      fakeEmail: {
+        titulo: String,
+        mensaje: String,
+        color: String,
+        icono: String,
+      },
+    },
+    parametrosFlow: {
+      subject: String,
+      currency: String,
+      paymentMethod: Number,
+      timeout: Number,
+      payment_currency: String,
     },
     version: Number,
-  })
+  },
+  { timestamps: true })
 );
 
 module.exports = ConfigApiDeudas;

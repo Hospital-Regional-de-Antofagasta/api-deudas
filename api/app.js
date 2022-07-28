@@ -3,6 +3,9 @@ const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
 const app = express();
+const deudas = require("./routes/deudas")
+const pagos = require("./routes/pagos")
+
 app.use(express.json());
 app.use(cors());
 
@@ -18,6 +21,10 @@ mongoose.connect(connection, {
 app.get("/v1/deudas/health", (req, res) => {
   res.status(200).send("ready");
 });
+
+app.use("/v1/deudas", deudas);
+
+app.use("/v1/pagos", pagos);
 
 if (require.main === module) { // true if file is executed
   process.on("SIGINT",function (){

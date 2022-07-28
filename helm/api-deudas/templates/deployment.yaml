@@ -59,7 +59,31 @@ spec:
                 secretKeyRef:
                   name: {{ include "api-deudas.secrets" . }}
                   key: mongo
-
+            - name: BASE_URL
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "api-deudas.secrets" . }}
+                  key: base-url
+            - name: API_URL
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "api-deudas.secrets" . }}
+                  key: api-url
+            - name: FLOW_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "api-deudas.secrets" . }}
+                  key: flow-api-key
+            - name: FLOW_SECRET_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "api-deudas.secrets" . }}
+                  key: flow-secret-key
+            - name: FLOW_HOSTING
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "api-deudas.secrets" . }}
+                  key: flow-hosting
           {{- if .Values.resources }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}

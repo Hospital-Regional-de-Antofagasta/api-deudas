@@ -12,9 +12,14 @@
         KEY: ${{ secrets.GCP_KEY }}
         API_ZONE: ${{ secrets.GCP_ZONE_PROD }}
         API_CLUSTER: ${{ secrets.GCP_CLUSTER_PROD }}
-        API_KEY: ${{ secrets.API_KEY }}
+        API_KEY: ${{ secrets.API_KEY_PROD }}
         MONGO_IP: ${{ secrets.MONGO_IP_PROD }}
-        NODE_ENV: "prod"
+        ENV: "prod"
+        BASE_URL: ${{ secrets.API_URL_PROD }}
+        API_URL: ${{ secrets.API_URL_PROD }}
+        FLOW_API_KEY: ${{ secrets.FLOW_API_KEY_PROD }}
+        FLOW_SECRET_KEY: ${{ secrets.FLOW_SECRET_KEY_PROD }}
+        FLOW_HOSTING: ${{ secrets.FLOW_HOSTING_PROD }}
       steps:
         - name: Checkout
           uses: actions/checkout@v2
@@ -30,4 +35,4 @@
             JWT_SECRET: "TEST"
           run: |
             chmod +x ./gradlew
-            ./gradlew helmInstallApideudasToCloud
+            ./gradlew helmInstallApiDeudasToCloud
